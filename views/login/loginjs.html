@@ -1,0 +1,35 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		$("#Login").click(function (e) {
+
+			var email = $("#email").val();
+			var password = $("#password").val();
+
+			//alert(email);
+
+			e.preventDefault();
+			$.ajax( {
+                    url:'/login/userlogin',// 跳转到 action
+                    data:{
+                    	email: email,
+                    	password: password
+                    },
+                    type:'post',
+                    cache:false,
+                    dataType:'json',
+                    success:function(data) {
+                    	if (data.Result) {
+                    		window.location.href = "/";
+                    	} else {
+                    		$("#Message").html(data.Message);
+                            //view(data.Message);
+                        }
+                    },
+                    error : function() {
+                    	alert("异常！");
+                    } 
+                });
+		});
+	})
+</script>
