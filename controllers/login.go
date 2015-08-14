@@ -7,6 +7,7 @@ import (
 	_ "github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"strconv"
 )
 
 type LoginController struct {
@@ -28,7 +29,7 @@ func (this *LoginController) UserLogin() {
 	o := orm.NewOrm()
 
 	var user models.User
-	err := o.QueryTable("User").Filter("UserName", email).Filter("Password", password).One(&user)
+	err := o.QueryTable("User").Filter("Email", email).Filter("Password", password).One(&user)
 	//fmt.Printf("Returned Rows Num: %s, %s", num, err)
 	if err == orm.ErrMultiRows || err == orm.ErrNoRows {
 		// 多条的时候报错
@@ -39,6 +40,8 @@ func (this *LoginController) UserLogin() {
 		this.Data["json"] = &result //&UserList
 		this.ServeJson()
 	}
+
+	this.Ctx.SetCookie("MtimeCIUserId", strconv.Itoa(user.Id), 180*60, "/")
 
 	result := models.UserLoginModel{models.JsonResultBaseStruct{Result: true, Message: "登录成功"}, user}
 

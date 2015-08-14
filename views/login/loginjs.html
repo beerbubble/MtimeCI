@@ -1,35 +1,55 @@
+
 <script type="text/javascript">
-	$(document).ready(function(){
+    $(document).ready(function() {
 
-		$("#Login").click(function (e) {
+        $("#Login").click(function(e) {
 
-			var email = $("#email").val();
-			var password = $("#password").val();
+            var email = $("#email").val();
+            var password = $("#password").val();
 
-			//alert(email);
+            //alert(getUrlParameter("url"));
 
-			e.preventDefault();
-			$.ajax( {
-                    url:'/login/userlogin',// 跳转到 action
-                    data:{
-                    	email: email,
-                    	password: password
-                    },
-                    type:'post',
-                    cache:false,
-                    dataType:'json',
-                    success:function(data) {
-                    	if (data.Result) {
-                    		window.location.href = "/";
-                    	} else {
-                    		$("#Message").html(data.Message);
-                            //view(data.Message);
+            e.preventDefault();
+            $.ajax({
+                url: '/login/userlogin', // 跳转到 action
+                data: {
+                    email: email,
+                    password: password
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                    if (data.Result) {
+                        if (getUrlParameter("url")) {
+                            window.location.href = getUrlParameter("url");
+                        } else {
+                            window.location.href = "/"
                         }
-                    },
-                    error : function() {
-                    	alert("异常！");
-                    } 
-                });
-		});
-	})
+                    } else {
+                        $("#Message").html(data.Message);
+                        //view(data.Message);
+                    }
+                },
+                error: function() {
+                    alert("异常！");
+                }
+            });
+        });
+    })
+
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
 </script>
