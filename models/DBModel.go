@@ -21,7 +21,17 @@ type User struct {
 	Createtime string
 }
 
+type Projectinfo struct {
+	Id           int
+	Name         string
+	Sourceurl    string
+	Languagetype string
+	Createtime   string
+	Buildnumber  int
+}
+
 func init() {
 	orm.RegisterModel(new(Executionlog))
 	orm.RegisterModel(new(User))
+	orm.RegisterModel(new(Projectinfo))
 }

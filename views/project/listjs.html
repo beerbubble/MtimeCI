@@ -1,0 +1,13 @@
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable({
+            responsive: true,
+            "columnDefs": [
+            { "orderable": false, "targets": 4 },
+            { "orderable": false, "targets": 5 }
+            ]
+        });
+    });
+</script>
+<script src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>
