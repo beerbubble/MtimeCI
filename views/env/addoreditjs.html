@@ -1,0 +1,38 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#submitenv").click(function(e) {
+
+			var envid = $("#envid").val();
+			var envname = $("#envname").val();
+			var envdes = $("#envdes").val();
+
+            //alert(getUrlParameter("url"));
+
+            e.preventDefault();
+            $.ajax({
+                url: '/environment/addapi', // 跳转到 action
+                data: {
+                	envid: envid,
+                	envname: envname,
+                	envdes: envdes
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                	if (data.Result) {
+                		
+                		window.location.href = "/environment/list"
+                		
+                	} else {
+                		$("#Message").html(data.Message);
+                        //view(data.Message);
+                    }
+                },
+                error: function() {
+                	alert("异常！");
+                }
+            });
+        });
+	});
+</script>

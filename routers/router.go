@@ -13,5 +13,6 @@ func init() {
 	beego.AutoRouter(&controllers.LoginController{})
 	beego.Router("/project", &controllers.ProjectController{})
 	beego.AutoRouter(&controllers.ProjectController{})
-
+	//beego.Router("/environment", &controllers.EnvironmentController{})
+	beego.AutoRouter(&controllers.EnvironmentController{})
 }

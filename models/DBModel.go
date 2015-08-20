@@ -30,8 +30,15 @@ type Projectinfo struct {
 	Buildnumber  int
 }
 
+type Environmentinfo struct {
+	Id          int
+	Name        string
+	Description string
+}
+
 func init() {
 	orm.RegisterModel(new(Executionlog))
 	orm.RegisterModel(new(User))
 	orm.RegisterModel(new(Projectinfo))
+	orm.RegisterModel(new(Environmentinfo))
 }
