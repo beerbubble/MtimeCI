@@ -20,7 +20,7 @@
 									<th>Name</th>
 									<th>SourceUrl</th>
 									<th>BuildNumber</th>
-									<th>CreateTime</th>
+									
 									<th>Branch</th>
 									<th>Action</th>
 								</tr>
@@ -31,8 +31,8 @@
 								<tr>
 									<td>{{$project.Name}}</td>
 									<td>{{$project.Sourceurl}}</td>
-									<th>{{$project.Buildnumber}}</th>
-									<td>{{$project.Createtime}}</td>
+									<td>{{$project.Buildnumber}}</td>
+									
 									<td><select class="form-control">
 										<option>1</option>
 										<option>2</option>
@@ -40,7 +40,7 @@
 										<option>4</option>
 										<option>5</option>
 									</select></td>
-									<td></td>
+									<td><a href="#"><button type="button" class="btn btn-info">详情</button></a> <button projectid="{{$project.Id}}" type="button" id="updateBranch" class="btn btn-info">更新分支列表</button></td>
 								</tr>
 								{{end}} 
 							</tbody>

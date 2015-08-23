@@ -6,9 +6,32 @@
         $('#example').DataTable({
             responsive: true,
             "columnDefs": [
-            { "orderable": false, "targets": 4 },
-            { "orderable": false, "targets": 5 }
+            { "orderable": false, "targets": 4 }
             ]
         });
+
+         $("#updateBranch").click(function (e) {
+
+                alert($(this).attr('projectid'));
+
+                e.preventDefault();
+                $.ajax({
+                    url: '/project/updatebranch/?projectid=' + $(this).attr('projectid'),// 跳转到 action
+                    type: 'get',
+                    cache: false,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.Success > 0) {
+                            //$('#deleteModal').modal('hide');
+                            location.reload();
+                        } else {
+                            alert(data.Message);
+                        }
+                    },
+                    error: function () {
+                        alert("服务器有点忙，请重试一下！");
+                    }
+                });
+            });
     });
 </script>

@@ -9,7 +9,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	//"github.com/astaxie/beego/logs"
 	//"strconv"
-	//"fmt"
+	//"bytes"
+	"fmt"
+	"os/exec"
+	"strings"
 )
 
 type ProjectController struct {
@@ -56,4 +59,28 @@ func (this *ProjectController) List() {
 	this.LayoutSections["NavContent"] = "component/nav.html"
 	this.LayoutSections["Scripts"] = "project/listjs.html"
 	this.LayoutSections["HtmlHead"] = "project/listcss.html"
+}
+
+func (this *ProjectController) UpdateBranch() {
+	projectid := this.Input().Get("projectid")
+
+	o := orm.NewOrm()
+
+	var project models.Projectinfo
+	err := o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
+	if err == orm.ErrMultiRows || err == orm.ErrNoRows {
+	}
+
+	cmd := exec.Command("git", "branch", "-r")
+	cmd.Dir = project.Sourceurl //"/Users/Liujia/Work/Mtime/Git/go/basis/config-web/"
+	out, _ := cmd.Output()
+
+	fmt.Printf("%s\n", out)
+
+	branchs := strings.Split(strings.TrimSpace(string(out)), "\n  ")
+
+	branchs = append(branchs[:0], branchs[1:]...)
+
+	this.Data["json"] = &branchs //&UserList
+	this.ServeJson()
 }
