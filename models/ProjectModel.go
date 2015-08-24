@@ -7,3 +7,8 @@ type ViewProjectListModel struct {
 	Buildnumber int
 	Branchs     []*Projectbranch
 }
+
+type ApiUpdateBranchModel struct {
+	JsonResultBaseStruct
+	Data []string
+}

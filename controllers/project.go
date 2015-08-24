@@ -130,6 +130,8 @@ func (this *ProjectController) UpdateBranch() {
 
 	}
 
-	this.Data["json"] = &branchs //&UserList
+	result := models.ApiUpdateBranchModel{models.JsonResultBaseStruct{Result: true, Message: "更新分支列表成功"}, branchs}
+
+	this.Data["json"] = &result //&UserList
 	this.ServeJson()
 }

@@ -12,7 +12,7 @@
 
          $("#updateBranch").click(function (e) {
 
-                alert($(this).attr('projectid'));
+                //alert($(this).attr('projectid'));
 
                 e.preventDefault();
                 $.ajax({
@@ -21,7 +21,7 @@
                     cache: false,
                     dataType: 'json',
                     success: function (data) {
-                        if (data.Success > 0) {
+                        if (data.Result > 0) {
                             //$('#deleteModal').modal('hide');
                             location.reload();
                         } else {
