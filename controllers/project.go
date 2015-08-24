@@ -8,7 +8,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	//"github.com/astaxie/beego/logs"
-	//"strconv"
+	"strconv"
 	//"bytes"
 	"fmt"
 	"os/exec"
@@ -49,9 +49,22 @@ func (this *ProjectController) List() {
 	case "3":
 		title = "Java Projects"
 	}
+
+	viewModel := []*models.ViewProjectListModel{}
+
+	for i := 0; i < len(projects); i++ {
+		var projectbranchs []*models.Projectbranch
+		num, _ := o.QueryTable("Projectbranch").Filter("Projectid", projects[i].Id).All(&projectbranchs)
+		fmt.Printf("Branch Numbers : %s", num)
+		viewModel = append(viewModel, &models.ViewProjectListModel{projects[i].Id, projects[i].Name, projects[i].Sourceurl, projects[i].Buildnumber, projectbranchs})
+	}
+
+	fmt.Printf("Number:%s", num)
+
 	this.Data["Title"] = title
 	this.Data["projectsnum"] = num
 	this.Data["projects"] = projects
+	this.Data["viewModel"] = viewModel
 
 	this.Layout = "Template.html"
 	this.TplNames = "project/list.html"
@@ -63,6 +76,7 @@ func (this *ProjectController) List() {
 
 func (this *ProjectController) UpdateBranch() {
 	projectid := this.Input().Get("projectid")
+	intprojectid, _ := strconv.Atoi(projectid)
 
 	o := orm.NewOrm()
 
@@ -80,6 +94,41 @@ func (this *ProjectController) UpdateBranch() {
 	branchs := strings.Split(strings.TrimSpace(string(out)), "\n  ")
 
 	branchs = append(branchs[:0], branchs[1:]...)
+
+	//获取已有分支数据
+	var projectbranchs []*models.Projectbranch
+	num, _ := o.QueryTable("Projectbranch").Filter("Projectid", projectid).All(&projectbranchs)
+
+	if num > 0 {
+		for i := 0; i < len(branchs); i++ {
+
+			isadd := true
+			for j := 0; j < len(projectbranchs); j++ {
+				if branchs[i] == projectbranchs[j].Branchname {
+					isadd = false
+				}
+			}
+			if isadd {
+				var branch models.Projectbranch
+				branch.Projectid = intprojectid
+				branch.Branchname = branchs[i]
+				if id, err := o.Insert(&branch); err == nil {
+					fmt.Printf("%s\n", id)
+				}
+			}
+		}
+
+	} else {
+		for i := 0; i < len(branchs); i++ {
+			var branch models.Projectbranch
+			branch.Projectid = intprojectid
+			branch.Branchname = branchs[i]
+			if id, err := o.Insert(&branch); err == nil {
+				fmt.Printf("%s\n", id)
+			}
+		}
+
+	}
 
 	this.Data["json"] = &branchs //&UserList
 	this.ServeJson()
