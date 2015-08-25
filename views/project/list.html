@@ -29,16 +29,16 @@
 							<tbody>
 								{{range $index, $project := .viewModel}}
 								<tr>
-									<td>{{$project.Name}}</td>
-									<td>{{$project.Sourceurl}}</td>
-									<td>{{$project.Buildnumber}}</td>
+									<td>{{$project.Project.Name}}</td>
+									<td>{{$project.Project.Sourceurl}}</td>
+									<td>{{$project.Project.Buildnumber}}</td>
 									
 									<td><select class="form-control">
 										{{range $branchindex, $branch := $project.Branchs}}
 										<option>{{$branch.Branchname}}</option>
 										{{end}} 
 									</select></td>
-									<td><a href="#"><button type="button" class="btn btn-info">详情</button></a> <button projectid="{{$project.Id}}" type="button" id="updateBranch" class="btn btn-info">更新分支列表</button></td>
+									<td><a href="/project/detail/{{$project.Project.Id}}"><button type="button" class="btn btn-info">详情</button></a> <button projectid="{{$project.Project.Id}}" type="button" id="updateBranch" class="btn btn-info">更新分支列表</button></td>
 								</tr>
 								{{end}} 
 							</tbody>

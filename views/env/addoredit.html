@@ -19,6 +19,10 @@
 					<label>平台描述</label>
 					<textarea class="form-control" rows="3" id="envdes">{{.env.Description}}</textarea>
 				</div>
+				<div class="form-group">
+					<label>Rundeck Api Url</label>
+					<input class="form-control" id="envapiurl" value="{{.env.Rundeckapiurl}}">
+				</div>
 				<button id="submitenv" class="btn btn-outline btn-success">提交</button>
 				<button type="reset" class="btn btn-outline btn-warning">重置数据</button>
 			</form>

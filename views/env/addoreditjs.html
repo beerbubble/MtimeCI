@@ -5,6 +5,7 @@
 			var envid = $("#envid").val();
 			var envname = $("#envname").val();
 			var envdes = $("#envdes").val();
+            var envapiurl = $("#envapiurl").val();
 
             //alert(getUrlParameter("url"));
 
@@ -14,7 +15,8 @@
                 data: {
                 	envid: envid,
                 	envname: envname,
-                	envdes: envdes
+                	envdes: envdes,
+                    envapiurl: envapiurl
                 },
                 type: 'post',
                 cache: false,

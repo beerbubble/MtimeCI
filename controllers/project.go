@@ -56,7 +56,7 @@ func (this *ProjectController) List() {
 		var projectbranchs []*models.Projectbranch
 		num, _ := o.QueryTable("Projectbranch").Filter("Projectid", projects[i].Id).All(&projectbranchs)
 		fmt.Printf("Branch Numbers : %s", num)
-		viewModel = append(viewModel, &models.ViewProjectListModel{projects[i].Id, projects[i].Name, projects[i].Sourceurl, projects[i].Buildnumber, projectbranchs})
+		viewModel = append(viewModel, &models.ViewProjectListModel{projects[i], projectbranchs})
 	}
 
 	fmt.Printf("Number:%s", num)
@@ -134,4 +134,17 @@ func (this *ProjectController) UpdateBranch() {
 
 	this.Data["json"] = &result //&UserList
 	this.ServeJson()
+}
+
+func (this *ProjectController) Detail() {
+
+	projectid := this.Input().Get("projectid")
+
+	this.Data["ProjectId"] = projectid
+	this.Layout = "Template.html"
+	this.TplNames = "project/detail.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["NavContent"] = "component/nav.html"
+	this.LayoutSections["Scripts"] = "project/listjs.html"
+	this.LayoutSections["HtmlHead"] = "project/listcss.html"
 }

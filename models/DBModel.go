@@ -31,9 +31,10 @@ type Projectinfo struct {
 }
 
 type Environmentinfo struct {
-	Id          int
-	Name        string
-	Description string
+	Id            int
+	Name          string
+	Description   string
+	Rundeckapiurl string
 }
 
 type Projectbranch struct {
