@@ -1,7 +1,7 @@
 package models
 
 type ViewProjectListModel struct {
-	Project *Projectinfo
+	Project Projectinfo
 	Branchs []*Projectbranch
 }
 

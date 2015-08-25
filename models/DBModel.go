@@ -25,7 +25,7 @@ type Projectinfo struct {
 	Id           int
 	Name         string
 	Sourceurl    string
-	Languagetype string
+	Languagetype int
 	Createtime   string
 	Buildnumber  int
 }

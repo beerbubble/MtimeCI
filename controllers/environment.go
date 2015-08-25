@@ -33,7 +33,7 @@ func (this *EnvironmentController) List() {
 	this.LayoutSections = make(map[string]string)
 	this.LayoutSections["NavContent"] = "component/nav.html"
 	this.LayoutSections["Scripts"] = "env/listjs.html"
-	this.LayoutSections["HtmlHead"] = "env/listcss.html"
+	//this.LayoutSections["HtmlHead"] = "env/listcss.html"
 }
 
 func (this *EnvironmentController) AddOrEdit() {

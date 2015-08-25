@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	//"beerbubble/MtimeCI/datatype"
+	"beerbubble/MtimeCI/datatype"
 	"beerbubble/MtimeCI/models"
 	"beerbubble/MtimeCI/utility"
 	"github.com/astaxie/beego"
@@ -35,7 +35,7 @@ func (this *ProjectController) List() {
 
 	o := orm.NewOrm()
 
-	var projects []*models.Projectinfo
+	var projects []models.Projectinfo
 	num, _ := o.QueryTable("Projectinfo").Filter("LanguageType", languageType).All(&projects)
 	//fmt.Printf("Returned Rows Num: %s, %s", num2, err2)
 	//.Filter("LanguageType", languageType)
@@ -138,9 +138,28 @@ func (this *ProjectController) UpdateBranch() {
 
 func (this *ProjectController) Detail() {
 
-	projectid := this.Input().Get("projectid")
+	projectid := this.Ctx.Input.Params["0"]
+
+	o := orm.NewOrm()
+	var project models.Projectinfo
+	err := o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
+	if err == orm.ErrMultiRows || err == orm.ErrNoRows {
+	}
+
+	var projectbranchs []*models.Projectbranch
+	num, _ := o.QueryTable("Projectbranch").Filter("Projectid", projectid).All(&projectbranchs)
+	if num < 0 {
+
+	}
+
+	viewModel := models.ViewProjectListModel{project, projectbranchs}
+
+	language := datatype.LanguageType(1)
 
 	this.Data["ProjectId"] = projectid
+	this.Data["viewModel"] = viewModel
+	this.Data["LanguageType"] = language
+
 	this.Layout = "Template.html"
 	this.TplNames = "project/detail.html"
 	this.LayoutSections = make(map[string]string)
