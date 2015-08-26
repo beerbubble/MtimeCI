@@ -33,7 +33,7 @@ func (this *ProjectEnvironmentController) AddOrEdit() {
 	} else {
 		title = "编辑项目及环境信息"
 		//var env models.Environmentinfo
-		err := o.QueryTable("Environmentinfo").Filter("envid", envid).Filter("projectid", projectid).One(&projectenv)
+		err := o.QueryTable("Projectenvironment").Filter("envid", envid).Filter("projectid", projectid).One(&projectenv)
 		if err == orm.ErrMultiRows {
 			// 多条的时候报错
 			//fmt.Printf("Returned Multi Rows Not One")
@@ -46,6 +46,17 @@ func (this *ProjectEnvironmentController) AddOrEdit() {
 
 	}
 
+	viewenvironmentinfomodels := []*models.ViewEnvironmentinfoModel{}
+	for i := 0; i < len(envs); i++ {
+		selected := ""
+
+		if envs[i].Id == projectenv.Envid {
+			selected = "selected"
+		}
+
+		viewenvironmentinfomodels = append(viewenvironmentinfomodels, &models.ViewEnvironmentinfoModel{envs[i].Id, envs[i].Name, envs[i].Description, envs[i].Rundeckapiurl, selected})
+	}
+
 	var project models.Projectinfo
 	err := o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
 	if err == orm.ErrMultiRows || err == orm.ErrNoRows {
@@ -54,7 +65,7 @@ func (this *ProjectEnvironmentController) AddOrEdit() {
 	this.Data["Title"] = title
 	this.Data["projectenv"] = projectenv
 	this.Data["project"] = project
-	this.Data["envs"] = envs
+	this.Data["envs"] = viewenvironmentinfomodels
 
 	this.Layout = "Template.html"
 	this.TplNames = "projectenv/addoredit.html"
@@ -80,29 +91,23 @@ func (this *ProjectEnvironmentController) AddApi() {
 	o := orm.NewOrm()
 
 	if intprojectenvid > 0 {
-		var projectenv models.Projectenvironment
-		err := o.QueryTable("Projectenvironment").Filter("envid", envid).Filter("projectid", projectid).One(&projectenv)
-		if err == orm.ErrMultiRows || err == orm.ErrNoRows {
-			this.Data["json"] = models.JsonResultBaseStruct{Result: false, Message: "添加数据错误"}
-			this.ServeJson()
-		} else {
-			projectenv := models.Projectenvironment{Id: intprojectenvid}
-			if o.Read(&projectenv) == nil {
-				projectenv.Projectid = intprojectid
-				projectenv.Envid = intenvid
-				projectenv.Rundeckjobid = rundeckjobid
-				if num, err := o.Update(&projectenv); err == nil {
-					this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, num}
-					this.ServeJson()
-				}
+
+		projectenv := models.Projectenvironment{Id: intprojectenvid}
+		if o.Read(&projectenv) == nil {
+			projectenv.Projectid = intprojectid
+			projectenv.Envid = intenvid
+			projectenv.Rundeckjobid = rundeckjobid
+			if num, err := o.Update(&projectenv); err == nil {
+				this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, num}
+				this.ServeJson()
 			}
 		}
 
 	} else {
 		var projectenv models.Projectenvironment
 		err := o.QueryTable("Projectenvironment").Filter("envid", envid).Filter("projectid", projectid).One(&projectenv)
-		if err == orm.ErrMultiRows || err == orm.ErrNoRows {
-			this.Data["json"] = models.JsonResultBaseStruct{Result: false, Message: "添加数据错误"}
+		if err == orm.ErrMultiRows || err == orm.ErrNoRows || projectenv.Id > 0 {
+			this.Data["json"] = models.JsonResultBaseStruct{Result: false, Message: "添加重复数据!"}
 			this.ServeJson()
 		} else {
 			var projectenv models.Projectenvironment

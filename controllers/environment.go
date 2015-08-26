@@ -22,10 +22,10 @@ func (this *EnvironmentController) List() {
 	o := orm.NewOrm()
 
 	var envs []*models.Environmentinfo
-	num, _ := o.QueryTable("Environmentinfo").All(&envs)
+	o.QueryTable("Environmentinfo").All(&envs)
 
 	this.Data["Title"] = "环境列表"
-	this.Data["envsnum"] = num
+	//this.Data["envsnum"] = num
 	this.Data["envs"] = envs
 
 	this.Layout = "Template.html"
@@ -54,11 +54,11 @@ func (this *EnvironmentController) AddOrEdit() {
 		o := orm.NewOrm()
 
 		//var env models.Environmentinfo
-		err := o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
-		if err == orm.ErrMultiRows {
-			// 多条的时候报错
-			//fmt.Printf("Returned Multi Rows Not One")
-		}
+		o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
+		//if err == orm.ErrMultiRows {
+		// 多条的时候报错
+		//fmt.Printf("Returned Multi Rows Not One")
+		//}
 	}
 
 	this.Data["Title"] = title
@@ -105,7 +105,6 @@ func (this *EnvironmentController) AddApi() {
 
 		if id, err := o.Insert(&env); err == nil {
 			this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, id}
-
 		}
 	}
 

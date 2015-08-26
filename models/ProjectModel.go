@@ -20,3 +20,11 @@ type ApiUpdateBranchModel struct {
 	JsonResultBaseStruct
 	Data []string
 }
+
+type ViewEnvironmentinfoModel struct {
+	Id            int
+	Name          string
+	Description   string
+	Rundeckapiurl string
+	Selected      string
+}

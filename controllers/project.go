@@ -36,7 +36,7 @@ func (this *ProjectController) List() {
 	o := orm.NewOrm()
 
 	var projects []models.Projectinfo
-	num, _ := o.QueryTable("Projectinfo").Filter("LanguageType", languageType).All(&projects)
+	o.QueryTable("Projectinfo").Filter("LanguageType", languageType).All(&projects)
 	//fmt.Printf("Returned Rows Num: %s, %s", num2, err2)
 	//.Filter("LanguageType", languageType)
 
@@ -54,15 +54,14 @@ func (this *ProjectController) List() {
 
 	for i := 0; i < len(projects); i++ {
 		var projectbranchs []*models.Projectbranch
-		num, _ := o.QueryTable("Projectbranch").Filter("Projectid", projects[i].Id).All(&projectbranchs)
-		fmt.Printf("Branch Numbers : %s", num)
+		//num, _ :=
+		o.QueryTable("Projectbranch").Filter("Projectid", projects[i].Id).All(&projectbranchs)
+		//fmt.Printf("Branch Numbers : %s", num)
 		viewModel = append(viewModel, &models.ViewProjectListModel{projects[i], projectbranchs})
 	}
 
-	fmt.Printf("Number:%s", num)
-
 	this.Data["Title"] = title
-	this.Data["projectsnum"] = num
+	//this.Data["projectsnum"] = num
 	this.Data["projects"] = projects
 	this.Data["viewModel"] = viewModel
 
@@ -81,9 +80,7 @@ func (this *ProjectController) UpdateBranch() {
 	o := orm.NewOrm()
 
 	var project models.Projectinfo
-	err := o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
-	if err == orm.ErrMultiRows || err == orm.ErrNoRows {
-	}
+	o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
 
 	cmd := exec.Command("git", "branch", "-r")
 	cmd.Dir = project.Sourceurl //"/Users/Liujia/Work/Mtime/Git/go/basis/config-web/"
@@ -142,42 +139,26 @@ func (this *ProjectController) Detail() {
 
 	o := orm.NewOrm()
 	var project models.Projectinfo
-	err := o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
-	if err == orm.ErrMultiRows || err == orm.ErrNoRows {
-	}
+	o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
 
 	var projectbranchs []*models.Projectbranch
-	projectbranchsnum, _ := o.QueryTable("Projectbranch").Filter("Projectid", projectid).All(&projectbranchs)
-	if projectbranchsnum < 0 {
-
-	}
+	o.QueryTable("Projectbranch").Filter("Projectid", projectid).All(&projectbranchs)
 
 	var projectenvs []*models.Projectenvironment
-	projectenvsnum, _ := o.QueryTable("Projectenvironment").Filter("Projectid", projectid).OrderBy("EnvId").All(&projectenvs)
-	if projectenvsnum < 0 {
-
-	}
+	o.QueryTable("Projectenvironment").Filter("Projectid", projectid).OrderBy("EnvId").All(&projectenvs)
 
 	var envs []*models.Environmentinfo
-	envsnum, _ := o.QueryTable("Environmentinfo").All(&envs)
-	if envsnum < 0 {
-
-	}
+	o.QueryTable("Environmentinfo").All(&envs)
 
 	envmap := make(map[int]string)
-
 	for i := 0; i < len(envs); i++ {
 		envmap[envs[i].Id] = envs[i].Name
 	}
 
 	var users []*models.User
-	usersnum, _ := o.QueryTable("User").All(&users)
-	if usersnum < 0 {
-
-	}
+	o.QueryTable("User").All(&users)
 
 	usermap := make(map[int]string)
-
 	for i := 0; i < len(users); i++ {
 		usermap[users[i].Id] = users[i].Username
 	}

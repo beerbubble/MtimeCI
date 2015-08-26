@@ -23,7 +23,7 @@
 					<label>选择平台:</label>
 					<select class="form-control" id="envid">
 						{{range $index, $env := $.envs}}
-						<option value="{{$env.Id}}">{{$env.Name}}</option>
+						<option value="{{$env.Id}}" {{$env.Selected}}>{{$env.Name}}</option>
 						{{end}} 
 					</select>
 				</div>

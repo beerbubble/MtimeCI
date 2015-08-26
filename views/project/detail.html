@@ -13,7 +13,7 @@
 					<p>源码路径: {{.viewModel.Project.Sourceurl}}</p>
 					<p>开发语言: {{.LanguageType}}</p>
 					<P>操作:</p>
-					<p><a href="/projectenvironment/addoredit?projectid={{.viewModel.Project.Id}}"><button type="button" class="btn btn-info">添加</button></a></p>
+					<p><a href="/projectenvironment/addoredit?projectid={{.viewModel.Project.Id}}"><button type="button" class="btn btn-info">添加新环境</button></a></p>
 				</div>	
 			</div>
 			{{range $index, $projectenv := .projectenvs}}
@@ -25,6 +25,8 @@
 					<p>最后执行时间: {{$projectenv.Lastexcutiontime}}</p>
 					<p>最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
 					<p>最后执行用户名称: {{$projectenv.Lastexcutionusername}}</p>
+					<p>操作:</p>
+					<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a></p>
 				</div>
 			</div>
 			{{end}}
