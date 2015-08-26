@@ -9,12 +9,11 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<h4>描述:</h4>
-					<p>配置中心web站点</p>
-					<h4>源码路径:</h4>
-					<p>{{.viewModel.Project.Sourceurl}}</p>
-					<h4>开发语言:</h4>
-					<p>{{.LanguageType}}</p>
+					<p>描述: {{.viewModel.Project.Description}}</p>
+					<p>源码路径: {{.viewModel.Project.Sourceurl}}</p>
+					<p>开发语言: {{.LanguageType}}</p>
+					<P>操作:</p>
+					<p><a href="/projectenvironment/addoredit?projectid={{.viewModel.Project.Id}}"><button type="button" class="btn btn-info">添加</button></a></p>
 				</div>
 			</div>
 		</div>

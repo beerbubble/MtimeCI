@@ -28,6 +28,7 @@ type Projectinfo struct {
 	Languagetype int
 	Createtime   string
 	Buildnumber  int
+	Description  string
 }
 
 type Environmentinfo struct {
@@ -43,11 +44,17 @@ type Projectbranch struct {
 	Branchname string
 }
 
+type ProjectEnvironment struct {
+	Id        int
+	Projectid int
+	Envid     string
+}
+
 func init() {
 	orm.RegisterModel(new(Executionlog))
 	orm.RegisterModel(new(User))
 	orm.RegisterModel(new(Projectinfo))
 	orm.RegisterModel(new(Environmentinfo))
 	orm.RegisterModel(new(Projectbranch))
-
+	orm.RegisterModel(new(ProjectEnvironment))
 }
