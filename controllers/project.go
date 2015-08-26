@@ -147,9 +147,44 @@ func (this *ProjectController) Detail() {
 	}
 
 	var projectbranchs []*models.Projectbranch
-	num, _ := o.QueryTable("Projectbranch").Filter("Projectid", projectid).All(&projectbranchs)
-	if num < 0 {
+	projectbranchsnum, _ := o.QueryTable("Projectbranch").Filter("Projectid", projectid).All(&projectbranchs)
+	if projectbranchsnum < 0 {
 
+	}
+
+	var projectenvs []*models.Projectenvironment
+	projectenvsnum, _ := o.QueryTable("Projectenvironment").Filter("Projectid", projectid).OrderBy("EnvId").All(&projectenvs)
+	if projectenvsnum < 0 {
+
+	}
+
+	var envs []*models.Environmentinfo
+	envsnum, _ := o.QueryTable("Environmentinfo").All(&envs)
+	if envsnum < 0 {
+
+	}
+
+	envmap := make(map[int]string)
+
+	for i := 0; i < len(envs); i++ {
+		envmap[envs[i].Id] = envs[i].Name
+	}
+
+	var users []*models.User
+	usersnum, _ := o.QueryTable("User").All(&users)
+	if usersnum < 0 {
+
+	}
+
+	usermap := make(map[int]string)
+
+	for i := 0; i < len(users); i++ {
+		usermap[users[i].Id] = users[i].Username
+	}
+
+	viewprojectenvmodels := []*models.ViewProjectEnvironmentModel{}
+	for i := 0; i < len(projectenvs); i++ {
+		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckjobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid], usermap[projectenvs[i].Lastexcutionuserid]})
 	}
 
 	viewModel := models.ViewProjectListModel{project, projectbranchs}
@@ -159,6 +194,7 @@ func (this *ProjectController) Detail() {
 	this.Data["ProjectId"] = projectid
 	this.Data["viewModel"] = viewModel
 	this.Data["LanguageType"] = language
+	this.Data["projectenvs"] = viewprojectenvmodels
 
 	this.Layout = "Template.html"
 	this.TplNames = "project/detail.html"

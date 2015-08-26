@@ -1,0 +1,40 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#submitprojectenv").click(function(e) {
+
+			var projectenvid = $("#projectenvid").val();
+			var envid = $("#envid").val();
+			var rundeckjobid = $("#rundeckjobid").val();
+            var projectid = $("#projectid").val();
+
+            //alert(projectenvid);
+
+            e.preventDefault();
+            $.ajax({
+                url: '/projectenvironment/addapi', // 跳转到 action
+                data: {
+                	projectenvid: projectenvid,
+                	envid: envid,
+                	rundeckjobid: rundeckjobid,
+                    projectid: projectid
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                	if (data.Result) {
+                		window.location.href = "/project/detail/"+projectid;
+                	} else {
+                		//$("#Message").html(data.Message);
+                        //view(data.Message);
+
+                        alert(data.Message);
+                    }
+                },
+                error: function() {
+                	alert("异常！");
+                }
+            });
+        });
+});
+</script>

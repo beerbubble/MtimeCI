@@ -44,10 +44,13 @@ type Projectbranch struct {
 	Branchname string
 }
 
-type ProjectEnvironment struct {
-	Id        int
-	Projectid int
-	Envid     string
+type Projectenvironment struct {
+	Id                 int
+	Projectid          int
+	Envid              int
+	Rundeckjobid       string
+	Lastexcutiontime   string
+	Lastexcutionuserid int
 }
 
 func init() {
@@ -56,5 +59,5 @@ func init() {
 	orm.RegisterModel(new(Projectinfo))
 	orm.RegisterModel(new(Environmentinfo))
 	orm.RegisterModel(new(Projectbranch))
-	orm.RegisterModel(new(ProjectEnvironment))
+	orm.RegisterModel(new(Projectenvironment))
 }

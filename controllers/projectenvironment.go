@@ -3,11 +3,11 @@ package controllers
 import (
 	"beerbubble/MtimeCI/models"
 	"beerbubble/MtimeCI/utility"
-	//"fmt"
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
-	//"strconv"
+	"strconv"
 	//"github.com/astaxie/beego/logs"
 )
 
@@ -22,7 +22,7 @@ func (this *ProjectEnvironmentController) AddOrEdit() {
 	projectid := this.Input().Get("projectid")
 	envid := this.Input().Get("envid")
 
-	var projectenv models.ProjectEnvironment
+	var projectenv models.Projectenvironment
 	var title string
 
 	o := orm.NewOrm()
@@ -60,6 +60,60 @@ func (this *ProjectEnvironmentController) AddOrEdit() {
 	this.TplNames = "projectenv/addoredit.html"
 	this.LayoutSections = make(map[string]string)
 	this.LayoutSections["NavContent"] = "component/nav.html"
-	this.LayoutSections["Scripts"] = "env/addoreditjs.html"
+	this.LayoutSections["Scripts"] = "projectenv/addoreditjs.html"
 	this.LayoutSections["HtmlHead"] = "env/listcss.html"
+}
+
+func (this *ProjectEnvironmentController) AddApi() {
+
+	envid := this.Input().Get("envid")
+	projectenvid := this.Input().Get("projectenvid")
+	rundeckjobid := this.Input().Get("rundeckjobid")
+	projectid := this.Input().Get("projectid")
+
+	fmt.Println(rundeckjobid)
+
+	intenvid, _ := strconv.Atoi(envid)
+	intprojectenvid, _ := strconv.Atoi(projectenvid)
+	intprojectid, _ := strconv.Atoi(projectid)
+
+	o := orm.NewOrm()
+
+	if intprojectenvid > 0 {
+		var projectenv models.Projectenvironment
+		err := o.QueryTable("Projectenvironment").Filter("envid", envid).Filter("projectid", projectid).One(&projectenv)
+		if err == orm.ErrMultiRows || err == orm.ErrNoRows {
+			this.Data["json"] = models.JsonResultBaseStruct{Result: false, Message: "添加数据错误"}
+			this.ServeJson()
+		} else {
+			projectenv := models.Projectenvironment{Id: intprojectenvid}
+			if o.Read(&projectenv) == nil {
+				projectenv.Projectid = intprojectid
+				projectenv.Envid = intenvid
+				projectenv.Rundeckjobid = rundeckjobid
+				if num, err := o.Update(&projectenv); err == nil {
+					this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, num}
+					this.ServeJson()
+				}
+			}
+		}
+
+	} else {
+		var projectenv models.Projectenvironment
+		err := o.QueryTable("Projectenvironment").Filter("envid", envid).Filter("projectid", projectid).One(&projectenv)
+		if err == orm.ErrMultiRows || err == orm.ErrNoRows {
+			this.Data["json"] = models.JsonResultBaseStruct{Result: false, Message: "添加数据错误"}
+			this.ServeJson()
+		} else {
+			var projectenv models.Projectenvironment
+			projectenv.Projectid = intprojectid
+			projectenv.Envid = intenvid
+			projectenv.Rundeckjobid = rundeckjobid
+
+			if id, err := o.Insert(&projectenv); err == nil {
+				this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, id}
+				this.ServeJson()
+			}
+		}
+	}
 }

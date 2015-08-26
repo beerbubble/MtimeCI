@@ -9,7 +9,10 @@
 		<div class="col-lg-6">
 			<form role="form">
 				<div class="form-group" style="display:none">
-					<input class="form-control" id="envid" value="{{.env.Id}}">
+					<input class="form-control" id="projectenvid" value="{{.projectenv.Id}}">
+				</div>
+				<div class="form-group" style="display:none">
+					<input class="form-control" id="projectid" value="{{.project.Id}}">
 				</div>
 				<div class="form-group">
 					<label>项目名称</label>
@@ -18,14 +21,19 @@
 
 				<div class="form-group">
 					<label>选择平台:</label>
-					<select class="form-control">
+					<select class="form-control" id="envid">
 						{{range $index, $env := $.envs}}
 						<option value="{{$env.Id}}">{{$env.Name}}</option>
 						{{end}} 
 					</select>
 				</div>
 
-				<button id="submitenv" class="btn btn-outline btn-success">提交</button>
+				<div class="form-group">
+					<label>Rundeck Job Id</label>
+					<input class="form-control" id="rundeckjobid" value="{{.projectenv.Rundeckjobid}}">
+				</div>
+
+				<button id="submitprojectenv" class="btn btn-outline btn-success">提交</button>
 				<button type="reset" class="btn btn-outline btn-warning">重置数据</button>
 			</form>
 		</div>
