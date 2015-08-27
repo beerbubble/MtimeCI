@@ -96,7 +96,7 @@ func (this *ProjectEnvironmentController) AddApi() {
 		if o.Read(&projectenv) == nil {
 			projectenv.Projectid = intprojectid
 			projectenv.Envid = intenvid
-			projectenv.Rundeckjobid = rundeckjobid
+			projectenv.Rundeckbuildjobid = rundeckjobid
 			if num, err := o.Update(&projectenv); err == nil {
 				this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, num}
 				this.ServeJson()
@@ -113,7 +113,7 @@ func (this *ProjectEnvironmentController) AddApi() {
 			var projectenv models.Projectenvironment
 			projectenv.Projectid = intprojectid
 			projectenv.Envid = intenvid
-			projectenv.Rundeckjobid = rundeckjobid
+			projectenv.Rundeckbuildjobid = rundeckjobid
 
 			if id, err := o.Insert(&projectenv); err == nil {
 				this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, id}

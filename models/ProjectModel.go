@@ -9,7 +9,8 @@ type ViewProjectEnvironmentModel struct {
 	Id                   int
 	Projectid            int
 	Envid                int
-	Rundeckjobid         string
+	Rundeckbuildjobid    string
+	Rundeckpackagejobid  string
 	Lastexcutiontime     string
 	Lastexcutionuserid   int
 	EnvName              string

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"beerbubble/MtimeCI/datatype"
 	"beerbubble/MtimeCI/models"
 	"beerbubble/MtimeCI/utility"
 	"fmt"
@@ -44,6 +45,13 @@ func (this *EnvironmentController) AddOrEdit() {
 
 	var env models.Environmentinfo
 	var title string
+
+	//envTypes := datatype.EnvTypes
+
+	for key, value := range datatype.EnvTypeMap {
+		fmt.Println(key)
+		fmt.Println(value)
+	}
 
 	if envid == "" {
 		title = "添加平台信息"

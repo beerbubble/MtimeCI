@@ -1,11 +1,11 @@
 package controllers
 
 import (
-	"beerbubble/MtimeCI/datatype"
+	//"beerbubble/MtimeCI/datatype"
 	"beerbubble/MtimeCI/utility"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	"strconv"
+	//"strconv"
 )
 
 type TestController struct {
@@ -29,7 +29,7 @@ func (this *TestController) Jia() {
 	log := logs.NewLogger(10000)
 	log.SetLogger("console", "")
 
-	log.Info(strconv.Itoa(int(datatype.Golang)))
+	//log.Info(strconv.Itoa(int(datatype.Golang)))
 
 	log.Info(this.Ctx.Input.Uri())
 	this.TplNames = "test/index.html"

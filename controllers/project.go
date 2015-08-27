@@ -165,16 +165,16 @@ func (this *ProjectController) Detail() {
 
 	viewprojectenvmodels := []*models.ViewProjectEnvironmentModel{}
 	for i := 0; i < len(projectenvs); i++ {
-		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckjobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid], usermap[projectenvs[i].Lastexcutionuserid]})
+		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid], usermap[projectenvs[i].Lastexcutionuserid]})
 	}
 
 	viewModel := models.ViewProjectListModel{project, projectbranchs}
 
-	language := datatype.LanguageType(1)
+	//language := datatype.LanguageType(1)
 
 	this.Data["ProjectId"] = projectid
 	this.Data["viewModel"] = viewModel
-	this.Data["LanguageType"] = language
+	this.Data["LanguageType"] = datatype.LanguageTypeMap[project.Languagetype]
 	this.Data["projectenvs"] = viewprojectenvmodels
 
 	this.Layout = "Template.html"

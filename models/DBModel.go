@@ -45,12 +45,13 @@ type Projectbranch struct {
 }
 
 type Projectenvironment struct {
-	Id                 int
-	Projectid          int
-	Envid              int
-	Rundeckjobid       string
-	Lastexcutiontime   string
-	Lastexcutionuserid int
+	Id                  int
+	Projectid           int
+	Envid               int
+	Rundeckbuildjobid   string
+	Rundeckpackagejobid string
+	Lastexcutiontime    string
+	Lastexcutionuserid  int
 }
 
 func init() {

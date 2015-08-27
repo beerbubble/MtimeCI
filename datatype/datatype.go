@@ -1,5 +1,10 @@
 package datatype
 
+import (
+//"strconv"
+)
+
+/*
 type LanguageType int
 
 const (
@@ -14,4 +19,19 @@ var LanguageTypes = [...]string{
 	"Java",
 }
 
-func (l LanguageType) String() string { return LanguageTypes[l-1] }
+func (l LanguageType) String() string {
+	return LanguageTypes[l-1]
+}
+*/
+
+var LanguageTypeMap = map[int]string{
+	1: "Golang",
+	2: "CSharp",
+	3: "Java",
+}
+
+var EnvTypeMap = map[int]string{
+	1: "Local",
+	2: "PreOnline",
+	3: "Online",
+}
