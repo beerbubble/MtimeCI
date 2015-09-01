@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"beerbubble/MtimeCI/models"
+	"beerbubble/MtimeCI/utility"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -23,6 +24,10 @@ func (this *MainController) Get() {
 	var logs []*models.Executionlog
 	num, err := o.QueryTable("Executionlog").Filter("id", 1).All(&logs)
 	fmt.Printf("Returned Rows Num: %s, %s", num, err)
+
+	args := map[string]string{"BUILD_NUMBER": "10", "Branch_NAME": "develop"}
+
+	utility.RunRundeckJob("http://192.168.50.20:4440/api/13/", "305afa2d-82eb-435d-88ee-2b1d12b353cb", "E4rNvVRV378knO9dp3d73O0cs1kd0kCd", args)
 
 	/*
 		client := &http.Client{}

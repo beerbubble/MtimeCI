@@ -48,7 +48,51 @@
 			</div>
 		</div>	
 	</div>
-	{{range $index, $projectenv := .projectenvs}}
+	{{range $index, $projectenv := .localprojectenvs}}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+		本地环境
+		</div>
+		<div class="panel-body">
+			<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
+			<p>环境名称: {{$projectenv.EnvName}}</p>
+			<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>
+			<p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p>
+			<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
+			<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
+			<p>当前环境版本号: </p>
+			<p>当前环境分支: </p>
+			<p>当前环境Git Hash: </p>
+			<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
+			<p>操作:</p>
+			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署详情</button></a></p>
+		</div>
+	</div>
+	{{end}}
+
+	{{range $index, $projectenv := .preprojectenvs}}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+		预上线环境
+		</div>
+		<div class="panel-body">
+			<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
+			<p>环境名称: {{$projectenv.EnvName}}</p>
+			<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>
+			<p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p>
+			<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
+			<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
+			<p>当前环境版本号: </p>
+			<p>当前环境分支: </p>
+			<p>当前环境Git Hash: </p>
+			<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
+			<p>操作:</p>
+			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署详情</button></a></p>
+		</div>
+	</div>
+	{{end}}
+
+	{{range $index, $projectenv := .onlineprojectenvs}}
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
@@ -62,7 +106,7 @@
 			<p>当前环境Git Hash: </p>
 			<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
 			<p>操作:</p>
-			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署</button></a></p>
+			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署详情</button></a></p>
 		</div>
 	</div>
 	{{end}}

@@ -7,10 +7,13 @@ import (
 )
 
 type Executionlog struct {
-	Id          int
-	Projectname string
-	Packagepath string
-	Createtime  string
+	Id              int
+	Projectid       int
+	Envid           int
+	Packagepath     string
+	Projectbuildid  int
+	Executionuserid int
+	Createtime      string
 }
 
 type User struct {
@@ -32,10 +35,12 @@ type Projectinfo struct {
 }
 
 type Environmentinfo struct {
-	Id            int
-	Name          string
-	Description   string
-	Rundeckapiurl string
+	Id                  int
+	Name                string
+	Description         string
+	Rundeckapiurl       string
+	Rundeckapiauthtoken string
+	Envtype             int
 }
 
 type Projectbranch struct {
@@ -52,6 +57,9 @@ type Projectenvironment struct {
 	Rundeckpackagejobid string
 	Lastexcutiontime    string
 	Lastexcutionuserid  int
+	Lastbuildnumber     int
+	Lastbuildbranchname string
+	Lastbuildbranchhash string
 }
 
 func init() {

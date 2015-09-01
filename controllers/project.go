@@ -88,7 +88,9 @@ func (this *ProjectController) UpdateBranch() {
 
 	fmt.Printf("%s\n", out)
 
-	branchs := strings.Split(strings.TrimSpace(string(out)), "\n  ")
+	branchs := strings.Split(strings.TrimSpace(strings.Replace(string(out), "origin/", "", -1)), "\n  ")
+
+	fmt.Println(strings.Replace(string(out), "origin/", "", -1))
 
 	branchs = append(branchs[:0], branchs[1:]...)
 
@@ -150,9 +152,9 @@ func (this *ProjectController) Detail() {
 	var envs []*models.Environmentinfo
 	o.QueryTable("Environmentinfo").All(&envs)
 
-	envmap := make(map[int]string)
+	envmap := make(map[int]*models.Environmentinfo)
 	for i := 0; i < len(envs); i++ {
-		envmap[envs[i].Id] = envs[i].Name
+		envmap[envs[i].Id] = envs[i]
 	}
 
 	var users []*models.User
@@ -163,10 +165,29 @@ func (this *ProjectController) Detail() {
 		usermap[users[i].Id] = users[i].Username
 	}
 
+	viewlocalprojectenvmodels := []*models.ViewProjectEnvironmentModel{}
+	viewpreprojectenvmodels := []*models.ViewProjectEnvironmentModel{}
+	viewonlineprojectenvmodels := []*models.ViewProjectEnvironmentModel{}
+
 	viewprojectenvmodels := []*models.ViewProjectEnvironmentModel{}
 	for i := 0; i < len(projectenvs); i++ {
-		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid], usermap[projectenvs[i].Lastexcutionuserid]})
+		env := envmap[projectenvs[i].Envid]
+
+		switch env.Envtype {
+		case 1:
+			viewlocalprojectenvmodels = append(viewlocalprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
+		case 2:
+			viewpreprojectenvmodels = append(viewpreprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
+		case 3:
+			viewonlineprojectenvmodels = append(viewonlineprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
+		}
+
+		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
 	}
+
+	fmt.Println(len(viewlocalprojectenvmodels))
+	fmt.Println(len(viewpreprojectenvmodels))
+	fmt.Println(len(viewonlineprojectenvmodels))
 
 	viewModel := models.ViewProjectListModel{project, projectbranchs}
 
@@ -175,7 +196,9 @@ func (this *ProjectController) Detail() {
 	this.Data["ProjectId"] = projectid
 	this.Data["viewModel"] = viewModel
 	this.Data["LanguageType"] = datatype.LanguageTypeMap[project.Languagetype]
-	this.Data["projectenvs"] = viewprojectenvmodels
+	this.Data["localprojectenvs"] = viewlocalprojectenvmodels
+	this.Data["preprojectenvs"] = viewpreprojectenvmodels
+	this.Data["onlineprojectenvs"] = viewonlineprojectenvmodels
 
 	this.Layout = "Template.html"
 	this.TplNames = "project/detail.html"

@@ -86,6 +86,7 @@ func (this *EnvironmentController) AddApi() {
 	envname := this.Input().Get("envname")
 	envdes := this.Input().Get("envdes")
 	envapiurl := this.Input().Get("envapiurl")
+	envapiauthtoken := this.Input().Get("envapiauthtoken")
 
 	fmt.Println(envname)
 
@@ -99,6 +100,7 @@ func (this *EnvironmentController) AddApi() {
 			env.Name = envname
 			env.Description = envdes
 			env.Rundeckapiurl = envapiurl
+			env.Rundeckapiauthtoken = envapiauthtoken
 			if num, err := o.Update(&env); err == nil {
 				this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, num}
 			}
@@ -110,7 +112,7 @@ func (this *EnvironmentController) AddApi() {
 		env.Name = envname
 		env.Description = envdes
 		env.Rundeckapiurl = envapiurl
-
+		env.Rundeckapiauthtoken = envapiauthtoken
 		if id, err := o.Insert(&env); err == nil {
 			this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, id}
 		}

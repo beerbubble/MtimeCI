@@ -20,6 +20,8 @@
 									<th>Name</th>
 									<th>Description</th>
 									<th>RundeckApiUrl</th>
+									<th>RundeckApiAuthtoken</th>
+									<th>环境类型</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -30,6 +32,8 @@
 									<td>{{$env.Name}}</td>
 									<td>{{$env.Description}}</td>
 									<td>{{$env.Rundeckapiurl}}</td>
+									<td>{{$env.Rundeckapiauthtoken}}</td>
+									<td>{{$env.Envtype}}</td>
 									<td>
 										<a href="/environment/addoredit?envid={{$env.Id}}"><button type="button" class="btn btn-info">编辑</button></a>
 									</td>

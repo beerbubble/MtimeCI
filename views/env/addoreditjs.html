@@ -6,6 +6,7 @@
 			var envname = $("#envname").val();
 			var envdes = $("#envdes").val();
             var envapiurl = $("#envapiurl").val();
+            var envapiauthtoken = $("envapiauthtoken").val();
 
             //alert(getUrlParameter("url"));
 
@@ -16,7 +17,8 @@
                 	envid: envid,
                 	envname: envname,
                 	envdes: envdes,
-                    envapiurl: envapiurl
+                    envapiurl: envapiurl,
+                    envapiauthtoken: envapiauthtoken
                 },
                 type: 'post',
                 cache: false,
@@ -36,5 +38,5 @@
                 }
             });
         });
-	});
+});
 </script>

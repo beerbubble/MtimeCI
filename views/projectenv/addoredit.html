@@ -29,8 +29,13 @@
 				</div>
 
 				<div class="form-group">
-					<label>Rundeck Job Id</label>
-					<input class="form-control" id="rundeckjobid" value="{{.projectenv.Rundeckjobid}}">
+					<label>Rundeck Build Job Id</label>
+					<input class="form-control" id="rundeckbuildjobid" value="{{.projectenv.Rundeckbuildjobid}}">
+				</div>
+
+				<div class="form-group">
+					<label>Rundeck Package Job Id</label>
+					<input class="form-control" id="rundeckpackagejobid" value="{{.projectenv.Rundeckpackagejobid}}">
 				</div>
 
 				<button id="submitprojectenv" class="btn btn-outline btn-success">提交</button>

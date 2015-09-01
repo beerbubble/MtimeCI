@@ -1,0 +1,59 @@
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">{{.Title}}</h1>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				当前状态
+			</div>
+			<div class="panel-body">
+				<p style="display:none">环境ID: {{.projectenv.Envid}}</p>
+				<p>Rundeck Build Job ID: {{.projectenv.Rundeckbuildjobid}}</p>
+				<p>Rundeck Package Job ID: {{.projectenv.Rundeckpackagejobid}}</p>
+				<p>当前环境版本号: {{.projectenv.Lastbuildnumber}} </p>
+				<p>当前环境分支: {{.projectenv.Lastbuildbranchname}} </p>
+				<p>当前环境Git Hash: {{.projectenv.Lastbuildbranchhash}} </p>
+				<p style="display:none">最后执行用户ID: {{.projectenv.Lastexcutionuserid}}</p>
+			</div>
+		</div>
+
+	</div>
+	<!-- /.row -->
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				部署操作
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="form-group">
+							<input class="form-control" id="projectenvid" value="{{.projectenv.Id}}">
+						</div>
+						<div class="form-group">
+							<input class="form-control" id="rundeckbuildjobid" value="{{.projectenv.Rundeckbuildjobid}}">
+						</div>
+						<div class="form-group">
+							<input class="form-control" id="rundeckpackagejobid" value="{{.projectenv.Rundeckpackagejobid}}">
+						</div>
+						<div class="input-group">
+							<lable class="input-group-addon">分支列表:</lable>
+							<select class="form-control">
+								{{range $branchindex, $branch := .projectbranchs}}
+								<option>{{$branch.Branchname}}</option>
+								{{end}} 
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-3">
+						<button id="build" type="button" class="btn btn-info">进行部署</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
