@@ -10,7 +10,7 @@ import (
 func init() {
 	orm.RegisterDriver("mysql", orm.DR_MySQL)
 
-	orm.RegisterDataBase("default", "mysql", "root:root@tcp(localhost:8889)/MtimeCI?charset=utf8")
+	orm.RegisterDataBase("default", "mysql", "root:root@tcp(localhost:8889)/MtimeCI?charset=utf8&loc=Asia%2FShanghai")
 
 	orm.Debug = true
 }

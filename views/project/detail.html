@@ -65,7 +65,7 @@
 			<p>当前环境Git Hash: </p>
 			<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
 			<p>操作:</p>
-			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署详情</button></a></p>
+			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署本地</button></a></p>
 		</div>
 	</div>
 	{{end}}
@@ -87,7 +87,7 @@
 			<p>当前环境Git Hash: </p>
 			<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
 			<p>操作:</p>
-			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署详情</button></a></p>
+			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/publishpre?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">发布预上线环境</button></a></p>
 		</div>
 	</div>
 	{{end}}
@@ -106,7 +106,7 @@
 			<p>当前环境Git Hash: </p>
 			<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
 			<p>操作:</p>
-			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署详情</button></a></p>
+			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">发布生产环境</button></a></p>
 		</div>
 	</div>
 	{{end}}

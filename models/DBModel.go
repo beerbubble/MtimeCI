@@ -4,6 +4,7 @@ package models
 import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"time"
 )
 
 type Executionlog struct {
@@ -62,6 +63,16 @@ type Projectenvironment struct {
 	Lastbuildbranchhash string
 }
 
+type Projectbuild struct {
+	Id          int
+	Projectid   int
+	Buildnumber int
+	Branchname  string
+	Branchhash  string
+	Buildpath   string
+	Created     time.Time
+}
+
 func init() {
 	orm.RegisterModel(new(Executionlog))
 	orm.RegisterModel(new(User))
@@ -69,4 +80,5 @@ func init() {
 	orm.RegisterModel(new(Environmentinfo))
 	orm.RegisterModel(new(Projectbranch))
 	orm.RegisterModel(new(Projectenvironment))
+	orm.RegisterModel(new(Projectbuild))
 }

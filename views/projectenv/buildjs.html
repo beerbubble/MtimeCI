@@ -7,17 +7,21 @@
 			var rundeckbuildjobid = $("#rundeckbuildjobid").val();
             var rundeckpackagejobid = $("#rundeckpackagejobid").val();
             var projectid = $("#projectid").val();
-
+            var branchname = $("#branchname").val();
+            var projectid = $("#projectid").val();
+ 
             //alert(projectenvid);
 
             e.preventDefault();
             $.ajax({
-                url: '/projectenvironment/addapi', // 跳转到 action
+                url: '/projectenvironment/buildapi', // 跳转到 action
                 data: {
                 	projectenvid: projectenvid,
                 	envid: envid,
                 	rundeckbuildjobid: rundeckbuildjobid,
                     rundeckpackagejobid: rundeckpackagejobid,
+                    projectid: projectid,
+                    branchname: branchname,
                     projectid: projectid
                 },
                 type: 'post',
@@ -25,7 +29,7 @@
                 dataType: 'json',
                 success: function(data) {
                 	if (data.Result) {
-                		window.location.href = "/project/detail/"+projectid;
+                		window.location.reload();
                 	} else {
                 		//$("#Message").html(data.Message);
                         //view(data.Message);

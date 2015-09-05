@@ -10,7 +10,7 @@ import (
 	"net/url"
 )
 
-func RunRundeckJob(rundeckServerUrl string, jobId string, token string, args map[string]string) {
+func RunRundeckJob(rundeckServerUrl string, jobId string, token string, args map[string]string) string {
 	client := &http.Client{}
 
 	var rundeckurl string
@@ -44,5 +44,6 @@ func RunRundeckJob(rundeckServerUrl string, jobId string, token string, args map
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 
-	fmt.Println(body)
+	fmt.Println(string(body))
+	return string(body)
 }
