@@ -249,16 +249,7 @@ func (this *ProjectEnvironmentController) BuildApi() {
 
 	o := orm.NewOrm()
 
-	var env models.Environmentinfo
-	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
-
-	//args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname}
-
-	//response := utility.RunRundeckJob(env.Rundeckapiurl, rundeckbuildjobid, env.Rundeckapiauthtoken, args)
-
-	//response := "test"
-
-	//获取project
+	//添加版本号数据以及更新项目版本号
 	var project models.Projectinfo
 
 	o.QueryTable("Projectinfo").Filter("Id", projectid).Update(orm.Params{
@@ -277,6 +268,16 @@ func (this *ProjectEnvironmentController) BuildApi() {
 	pb.Branchname = branchname
 	pb.Created = now
 	id, _ := o.Insert(&pb)
+
+	//获取项目环境信息进行编译部署
+	var env models.Environmentinfo
+	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
+
+	//args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname}
+
+	//response := utility.RunRundeckJob(env.Rundeckapiurl, rundeckbuildjobid, env.Rundeckapiauthtoken, args)
+
+	//response := "test"
 
 	//rundeck执行完成之后读取git hash
 	dat, _ := ioutil.ReadFile("/Volumes/ftproot/mtime/upversion/MtimeGoConfigWeb/2/config-web/GitBranchHash")
