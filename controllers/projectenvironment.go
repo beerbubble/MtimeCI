@@ -317,7 +317,7 @@ func (this *ProjectEnvironmentController) PublishPreApi() {
 
 	args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname}
 
-	response := utility.RunRundeckJob(env.Rundeckapiurl, rundeckbuildjobid, env.Rundeckapiauthtoken, args)
+	response := utility.RundeckRunJob(env.Rundeckapiurl, env.Rundeckapiauthtoken, rundeckbuildjobid, args)
 
 	fmt.Println(response)
 

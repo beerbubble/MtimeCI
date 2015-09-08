@@ -12,6 +12,7 @@ import (
 	//"net/http"
 	"encoding/xml"
 	//"net/url"
+	"time"
 )
 
 type MainController struct {
@@ -91,7 +92,7 @@ func (this *MainController) Get() {
 
 	args := map[string]string{"BUILD_NUMBER": "10", "Branch_NAME": "develop"}
 
-	response := utility.RunRundeckJob("http://192.168.50.20:4440/api/13/", "305afa2d-82eb-435d-88ee-2b1d12b353cb", "E4rNvVRV378knO9dp3d73O0cs1kd0kCd", args)
+	response := utility.RundeckRunJob("http://192.168.50.20:4440/api/13/", "E4rNvVRV378knO9dp3d73O0cs1kd0kCd", "305afa2d-82eb-435d-88ee-2b1d12b353cb", args)
 
 	r := models.RunJobExecutions{}
 	xml_err := xml.Unmarshal([]byte(response), &r)
@@ -102,7 +103,37 @@ func (this *MainController) Get() {
 		this.ServeJson()
 	}
 
+	if r.Exs != nil {
+		fmt.Println(r.Exs[0].Id)
+	}
+
 	fmt.Println(r)
+
+	i := 0
+	for i < 1 {
+		r2 := models.RunJobExecutions{}
+		response_2 := utility.RundeckExecutionInfo("http://192.168.50.20:4440/api/13/", "E4rNvVRV378knO9dp3d73O0cs1kd0kCd", r.Exs[0].Id)
+
+		xml_err2 := xml.Unmarshal([]byte(response_2), &r2)
+
+		if xml_err2 != nil {
+			fmt.Printf("error: %v", xml_err2)
+			this.Data["json"] = xml_err2 //url.QueryEscape(logs[0].Packagepath)
+			this.ServeJson()
+		}
+
+		if r2.Exs != nil {
+			fmt.Println(r.Exs[0].Id)
+		}
+
+		fmt.Println(r2)
+
+		if r2.Exs[0].Status == "succeeded" {
+			i = 1
+		}
+
+		time.Sleep(time.Second * 3)
+	}
 
 	/*
 		client := &http.Client{}
