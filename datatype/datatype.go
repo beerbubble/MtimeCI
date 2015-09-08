@@ -35,3 +35,10 @@ var EnvTypeMap = map[int]string{
 	2: "PreOnline",
 	3: "Online",
 }
+
+var BuildMap = map[int]string{
+	1: "Start",
+	2: "Running",
+	3: "Success",
+	4: "Fail",
+}

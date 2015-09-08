@@ -93,6 +93,7 @@ func (this *MainController) Get() {
 	args := map[string]string{"BUILD_NUMBER": "10", "Branch_NAME": "develop"}
 
 	response := utility.RundeckRunJob("http://192.168.50.20:4440/api/13/", "E4rNvVRV378knO9dp3d73O0cs1kd0kCd", "305afa2d-82eb-435d-88ee-2b1d12b353cb", args)
+	fmt.Println(response)
 
 	r := models.RunJobExecutions{}
 	xml_err := xml.Unmarshal([]byte(response), &r)

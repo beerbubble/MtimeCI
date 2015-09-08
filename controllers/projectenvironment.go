@@ -9,6 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"strconv"
 	//"github.com/astaxie/beego/logs"
+	"encoding/xml"
 	"io/ioutil"
 	"time"
 )
@@ -240,9 +241,9 @@ func (this *ProjectEnvironmentController) PublishPre() {
 
 func (this *ProjectEnvironmentController) BuildApi() {
 
-	//projectenvid := this.Input().Get("projectenvid")
+	projectenvid := this.Input().Get("projectenvid")
 	envid := this.Input().Get("envid")
-	//rundeckbuildjobid := this.Input().Get("rundeckbuildjobid")
+	rundeckbuildjobid := this.Input().Get("rundeckbuildjobid")
 	//rundeckpackagejobid := this.Input().Get("rundeckpackagejobid")
 	projectid := this.Input().Get("projectid")
 	branchname := this.Input().Get("branchname")
@@ -267,18 +268,35 @@ func (this *ProjectEnvironmentController) BuildApi() {
 	pb.Buildnumber = project.Buildnumber
 	pb.Branchname = branchname
 	pb.Created = now
+	pb.Buildstatus = 1
 	id, _ := o.Insert(&pb)
 
 	//获取项目环境信息进行编译部署
 	var env models.Environmentinfo
 	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
 
-	//args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname}
+	args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname}
 
-	//response := utility.RunRundeckJob(env.Rundeckapiurl, rundeckbuildjobid, env.Rundeckapiauthtoken, args)
+	response := utility.RundeckRunJob(env.Rundeckapiurl, env.Rundeckapiauthtoken, rundeckbuildjobid, args)
+	fmt.Println(response)
 
-	//response := "test"
+	//parse rundeck api xml response
+	r := models.RunJobExecutions{}
+	xml_err := xml.Unmarshal([]byte(response), &r)
 
+	if xml_err != nil {
+		fmt.Printf("error: %v", xml_err)
+		this.Data["json"] = xml_err //url.QueryEscape(logs[0].Packagepath)
+		this.ServeJson()
+	}
+
+	if r.Exs != nil {
+		o.QueryTable("Projectbuild").Filter("Id", id).Update(orm.Params{
+			"BuildStatus": 2,
+			"ExecutionId": r.Exs[0].Id,
+		})
+		fmt.Println(r.Exs[0].Id)
+	}
 	//rundeck执行完成之后读取git hash
 	dat, _ := ioutil.ReadFile("/Volumes/ftproot/mtime/upversion/MtimeGoConfigWeb/2/config-web/GitBranchHash")
 	//check(err)
@@ -297,7 +315,7 @@ func (this *ProjectEnvironmentController) BuildApi() {
 	//fmt.Println(projectid)
 	//fmt.Println(branchname)
 
-	this.Data["json"] = env //models.JsonResultBaseStruct{Result: true, Message: "操作成功"}
+	this.Data["json"] = models.BuildApiModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, r.Exs[0].Id}
 	this.ServeJson()
 }
 
@@ -329,5 +347,46 @@ func (this *ProjectEnvironmentController) PublishPreApi() {
 	fmt.Println(branchname)
 
 	this.Data["json"] = env //models.JsonResultBaseStruct{Result: true, Message: "操作成功"}
+	this.ServeJson()
+}
+
+func (this *ProjectEnvironmentController) ExecutionStatus() {
+
+	executionid := this.Input().Get("executionid")
+	envid := this.Input().Get("envid")
+
+	o := orm.NewOrm()
+
+	now := time.Now()
+
+	fmt.Println(now)
+
+	//获取项目环境信息进行编译部署
+	var env models.Environmentinfo
+	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
+
+	r := models.RunJobExecutions{}
+	response := utility.RundeckExecutionInfo(env.Rundeckapiurl, env.Rundeckapiauthtoken, executionid)
+
+	xml_err := xml.Unmarshal([]byte(response), &r)
+
+	if xml_err != nil {
+		fmt.Printf("error: %v", xml_err)
+		this.Data["json"] = xml_err
+		this.ServeJson()
+	}
+
+	switch r.Exs[0].Status {
+	case "succeeded":
+		o.QueryTable("Projectbuild").Filter("Executionid", executionid).Update(orm.Params{
+			"BuildStatus": 3,
+		})
+	case "failed":
+		o.QueryTable("Projectbuild").Filter("Executionid", executionid).Update(orm.Params{
+			"BuildStatus": 4,
+		})
+	}
+
+	this.Data["json"] = r.Exs[0].Status //models.JsonResultBaseStruct{Result: true, Message: "操作成功"}
 	this.ServeJson()
 }

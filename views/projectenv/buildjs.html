@@ -13,6 +13,9 @@
             //alert(projectenvid);
 
             e.preventDefault();
+            var l = Ladda.create(this);
+            l.start();
+
             $.ajax({
                 url: '/projectenvironment/buildapi', // 跳转到 action
                 data: {
@@ -29,7 +32,8 @@
                 dataType: 'json',
                 success: function(data) {
                 	if (data.Result) {
-                		window.location.reload();
+                        LoopExecutionStatus(envid,data.Data);
+                		//window.location.reload();
                 	} else {
                 		//$("#Message").html(data.Message);
                         //view(data.Message);
@@ -42,5 +46,39 @@
                 }
             });
         });
+    function LoopExecutionStatus(envid,executionid)
+    {
+        $.ajax({
+            url: "/projectenvironment/executionstatus",
+            data: {
+                envid:envid,
+                executionid:executionid,
+            },
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data == "running") {
+                    setTimeout(function () {
+                        LoopExecutionStatus(envid,executionid);
+                    }, 5000)
+                }
+                else
+                {
+                    var l = Ladda.create(document.querySelector('#build'));
+                    l.stop();
+                    //alert("succes");
+                }
+            },
+            error: function () {
+                alert("fail");
+                //callback getMyJson here in 5 seconds
+                setTimeout(function () {
+                    LoopExecutionStatus(envid,executionid);
+                }, 5000)
+            }
+        });
+
+    }
 });
 </script>

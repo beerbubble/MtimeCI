@@ -71,6 +71,8 @@ type Projectbuild struct {
 	Branchhash  string
 	Buildpath   string
 	Created     time.Time
+	Buildstatus int
+	Executionid int
 }
 
 func init() {
