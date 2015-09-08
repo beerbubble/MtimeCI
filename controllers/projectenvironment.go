@@ -241,7 +241,7 @@ func (this *ProjectEnvironmentController) PublishPre() {
 
 func (this *ProjectEnvironmentController) BuildApi() {
 
-	projectenvid := this.Input().Get("projectenvid")
+	//projectenvid := this.Input().Get("projectenvid")
 	envid := this.Input().Get("envid")
 	rundeckbuildjobid := this.Input().Get("rundeckbuildjobid")
 	//rundeckpackagejobid := this.Input().Get("rundeckpackagejobid")
@@ -275,7 +275,7 @@ func (this *ProjectEnvironmentController) BuildApi() {
 	var env models.Environmentinfo
 	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
 
-	args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname}
+	args := map[string]string{"BUILD_NUMBER": strconv.Itoa(project.Buildnumber), "Branch_NAME": branchname}
 
 	response := utility.RundeckRunJob(env.Rundeckapiurl, env.Rundeckapiauthtoken, rundeckbuildjobid, args)
 	fmt.Println(response)
@@ -354,6 +354,7 @@ func (this *ProjectEnvironmentController) ExecutionStatus() {
 
 	executionid := this.Input().Get("executionid")
 	envid := this.Input().Get("envid")
+	projectenvid := this.Input().Get("projectenvid")
 
 	o := orm.NewOrm()
 
@@ -380,6 +381,17 @@ func (this *ProjectEnvironmentController) ExecutionStatus() {
 	case "succeeded":
 		o.QueryTable("Projectbuild").Filter("Executionid", executionid).Update(orm.Params{
 			"BuildStatus": 3,
+		})
+
+		//获取项目环境信息进行编译部署
+		var pb models.Projectbuild
+		o.QueryTable("Projectbuild").Filter("Executionid", executionid).One(&pb)
+
+		o.QueryTable("Projectenvironment").Filter("Id", projectenvid).Update(orm.Params{
+			"Lastexcutiontime":    time.Now(),
+			"LastBuildNumber":     pb.Buildnumber,
+			"Lastbuildbranchname": pb.Branchname,
+			"LastBuildBranchHash": pb.Branchhash,
 		})
 	case "failed":
 		o.QueryTable("Projectbuild").Filter("Executionid", executionid).Update(orm.Params{

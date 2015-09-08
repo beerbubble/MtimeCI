@@ -56,7 +56,7 @@ type Projectenvironment struct {
 	Envid               int
 	Rundeckbuildjobid   string
 	Rundeckpackagejobid string
-	Lastexcutiontime    string
+	Lastexcutiontime    time.Time
 	Lastexcutionuserid  int
 	Lastbuildnumber     int
 	Lastbuildbranchname string

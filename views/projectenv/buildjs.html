@@ -32,7 +32,7 @@
                 dataType: 'json',
                 success: function(data) {
                 	if (data.Result) {
-                        LoopExecutionStatus(envid,data.Data);
+                        LoopExecutionStatus(projectenvid,envid,data.Data);
                 		//window.location.reload();
                 	} else {
                 		//$("#Message").html(data.Message);
@@ -46,13 +46,14 @@
                 }
             });
         });
-    function LoopExecutionStatus(envid,executionid)
+    function LoopExecutionStatus(projectenvid,envid,executionid)
     {
         $.ajax({
             url: "/projectenvironment/executionstatus",
             data: {
                 envid:envid,
                 executionid:executionid,
+                projectenvid:projectenvid,
             },
             type: 'post',
             cache: false,
@@ -60,7 +61,7 @@
             success: function (data) {
                 if (data.Data == "running") {
                     setTimeout(function () {
-                        LoopExecutionStatus(envid,executionid);
+                        LoopExecutionStatus(projectenvid,envid,executionid);
                     }, 5000)
                 }
                 else
@@ -74,7 +75,7 @@
                 alert("fail");
                 //callback getMyJson here in 5 seconds
                 setTimeout(function () {
-                    LoopExecutionStatus(envid,executionid);
+                    LoopExecutionStatus(projectenvid,envid,executionid);
                 }, 5000)
             }
         });

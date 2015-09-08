@@ -1,5 +1,9 @@
 package models
 
+import (
+	"time"
+)
+
 type ViewProjectListModel struct {
 	Project Projectinfo
 	Branchs []*Projectbranch
@@ -11,10 +15,13 @@ type ViewProjectEnvironmentModel struct {
 	Envid                int
 	Rundeckbuildjobid    string
 	Rundeckpackagejobid  string
-	Lastexcutiontime     string
+	Lastexcutiontime     time.Time
 	Lastexcutionuserid   int
 	EnvName              string
 	Lastexcutionusername string
+	Lastbuildnumber      int
+	Lastbuildbranchname  string
+	Lastbuildbranchhash  string
 }
 
 type ApiUpdateBranchModel struct {

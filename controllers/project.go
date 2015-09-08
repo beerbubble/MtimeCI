@@ -175,14 +175,14 @@ func (this *ProjectController) Detail() {
 
 		switch env.Envtype {
 		case 1:
-			viewlocalprojectenvmodels = append(viewlocalprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
+			viewlocalprojectenvmodels = append(viewlocalprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
 		case 2:
-			viewpreprojectenvmodels = append(viewpreprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
+			viewpreprojectenvmodels = append(viewpreprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
 		case 3:
-			viewonlineprojectenvmodels = append(viewonlineprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
+			viewonlineprojectenvmodels = append(viewonlineprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
 		}
 
-		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid]})
+		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime, projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
 	}
 
 	fmt.Println(len(viewlocalprojectenvmodels))

@@ -60,9 +60,9 @@
 			<p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p>
 			<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
 			<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
-			<p>当前环境版本号: </p>
-			<p>当前环境分支: </p>
-			<p>当前环境Git Hash: </p>
+			<p>当前环境版本号: {{$projectenv.Lastbuildnumber}}</p>
+			<p>当前环境分支: {{$projectenv.Lastbuildbranchname}}</p>
+			<p>当前环境Git Hash: {{$projectenv.Lastbuildbranchhash}}</p>
 			<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
 			<p>操作:</p>
 			<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署本地</button></a></p>
