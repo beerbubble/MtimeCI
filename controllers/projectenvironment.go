@@ -387,6 +387,6 @@ func (this *ProjectEnvironmentController) ExecutionStatus() {
 		})
 	}
 
-	this.Data["json"] = r.Exs[0].Status //models.JsonResultBaseStruct{Result: true, Message: "操作成功"}
+	this.Data["json"] = models.ExecutionStatusApiModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, r.Exs[0].Status} //models.JsonResultBaseStruct{Result: true, Message: "操作成功"}
 	this.ServeJson()
 }

@@ -58,7 +58,7 @@
             cache: false,
             dataType: 'json',
             success: function (data) {
-                if (data == "running") {
+                if (data.Data == "running") {
                     setTimeout(function () {
                         LoopExecutionStatus(envid,executionid);
                     }, 5000)

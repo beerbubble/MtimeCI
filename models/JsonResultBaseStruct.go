@@ -9,3 +9,8 @@ type BuildApiModel struct {
 	JsonResultBaseStruct
 	Data string
 }
+
+type ExecutionStatusApiModel struct {
+	JsonResultBaseStruct
+	Data string
+}
