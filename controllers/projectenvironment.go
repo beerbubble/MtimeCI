@@ -224,15 +224,19 @@ func (this *ProjectEnvironmentController) PublishPre() {
 	var projectbranchs []*models.Projectbranch
 	o.QueryTable("Projectbranch").Filter("Projectid", projectid).All(&projectbranchs)
 
+	var projectbuilds []*models.Projectbuild
+	o.QueryTable("Projectbuild").Filter("Projectid", projectid).Filter("Buildstatus", 3).OrderBy("-id").Limit(10).All(&projectbuilds)
+
 	this.Data["Title"] = title
 	this.Data["projectenv"] = projectenv
 	this.Data["project"] = project
 	this.Data["envs"] = viewenvironmentinfomodels
 	this.Data["envid"] = envid
 	this.Data["projectbranchs"] = projectbranchs
+	this.Data["projectbuilds"] = projectbuilds
 
 	this.Layout = "Template.html"
-	this.TplNames = "projectenv/build.html"
+	this.TplNames = "projectenv/publishpre.html"
 	this.LayoutSections = make(map[string]string)
 	this.LayoutSections["NavContent"] = "component/nav.html"
 	this.LayoutSections["Scripts"] = "projectenv/buildjs.html"
@@ -275,7 +279,7 @@ func (this *ProjectEnvironmentController) BuildApi() {
 	var env models.Environmentinfo
 	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
 
-	args := map[string]string{"BUILD_NUMBER": strconv.Itoa(project.Buildnumber), "Branch_NAME": branchname}
+	args := map[string]string{"BUILD_NUMBER": strconv.Itoa(project.Buildnumber), "Branch_NAME": branchname, "Repository_Path": project.Repositorypath}
 
 	response := utility.RundeckRunJob(env.Rundeckapiurl, env.Rundeckapiauthtoken, rundeckbuildjobid, args)
 	fmt.Println(response)
@@ -333,7 +337,7 @@ func (this *ProjectEnvironmentController) PublishPreApi() {
 	var env models.Environmentinfo
 	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
 
-	args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname}
+	args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname, "Repository_Path": project.Repositorypath}
 
 	response := utility.RundeckRunJob(env.Rundeckapiurl, env.Rundeckapiauthtoken, rundeckbuildjobid, args)
 
