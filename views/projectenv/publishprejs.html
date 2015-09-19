@@ -1,0 +1,85 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#build").click(function(e) {
+
+			var projectenvid = $("#projectenvid").val();
+			var envid = $("#envid").val();
+			var rundeckbuildjobid = $("#rundeckbuildjobid").val();
+            var rundeckpackagejobid = $("#rundeckpackagejobid").val();
+            var projectid = $("#projectid").val();
+            var buildnumber = $("#buildnumber").val();
+            var projectid = $("#projectid").val();
+ 
+            //alert(projectenvid);
+
+            e.preventDefault();
+            var l = Ladda.create(this);
+            l.start();
+
+            $.ajax({
+                url: '/projectenvironment/publishpreapi', // 跳转到 action
+                data: {
+                	projectenvid: projectenvid,
+                	envid: envid,
+                	rundeckbuildjobid: rundeckbuildjobid,
+                    rundeckpackagejobid: rundeckpackagejobid,
+                    projectid: projectid,
+                    buildnumber: buildnumber,
+                    projectid: projectid
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                	if (data.Result) {
+                        LoopExecutionStatus(projectenvid,envid,data.Data);
+                		//window.location.reload();
+                	} else {
+                		//$("#Message").html(data.Message);
+                        //view(data.Message);
+
+                        alert(data.Message);
+                    }
+                },
+                error: function() {
+                	alert("异常！");
+                }
+            });
+        });
+    function LoopExecutionStatus(projectenvid,envid,executionid)
+    {
+        $.ajax({
+            url: "/projectenvironment/executionstatus",
+            data: {
+                envid:envid,
+                executionid:executionid,
+                projectenvid:projectenvid,
+            },
+            type: 'post',
+            cache: false,
+            dataType: 'json',
+            success: function (data) {
+                if (data.Data == "running") {
+                    setTimeout(function () {
+                        LoopExecutionStatus(projectenvid,envid,executionid);
+                    }, 5000)
+                }
+                else
+                {
+                    var l = Ladda.create(document.querySelector('#build'));
+                    l.stop();
+                    //alert("succes");
+                }
+            },
+            error: function () {
+                alert("fail");
+                //callback getMyJson here in 5 seconds
+                setTimeout(function () {
+                    LoopExecutionStatus(projectenvid,envid,executionid);
+                }, 5000)
+            }
+        });
+
+    }
+});
+</script>

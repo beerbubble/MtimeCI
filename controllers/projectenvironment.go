@@ -239,7 +239,7 @@ func (this *ProjectEnvironmentController) PublishPre() {
 	this.TplNames = "projectenv/publishpre.html"
 	this.LayoutSections = make(map[string]string)
 	this.LayoutSections["NavContent"] = "component/nav.html"
-	this.LayoutSections["Scripts"] = "projectenv/buildjs.html"
+	this.LayoutSections["Scripts"] = "projectenv/publishprejs.html"
 	this.LayoutSections["HtmlHead"] = "env/listcss.html"
 }
 
@@ -247,6 +247,8 @@ func (this *ProjectEnvironmentController) BuildApi() {
 
 	//projectenvid := this.Input().Get("projectenvid")
 	envid := this.Input().Get("envid")
+	intenvid, _ := strconv.Atoi(envid)
+
 	rundeckbuildjobid := this.Input().Get("rundeckbuildjobid")
 	//rundeckpackagejobid := this.Input().Get("rundeckpackagejobid")
 	projectid := this.Input().Get("projectid")
@@ -273,6 +275,7 @@ func (this *ProjectEnvironmentController) BuildApi() {
 	pb.Branchname = branchname
 	pb.Created = now
 	pb.Buildstatus = 1
+	pb.Envid = intenvid
 	id, _ := o.Insert(&pb)
 
 	//获取项目环境信息进行编译部署
@@ -325,32 +328,99 @@ func (this *ProjectEnvironmentController) BuildApi() {
 
 func (this *ProjectEnvironmentController) PublishPreApi() {
 
-	projectenvid := this.Input().Get("projectenvid")
+	//projectenvid := this.Input().Get("projectenvid")
 	envid := this.Input().Get("envid")
 	rundeckbuildjobid := this.Input().Get("rundeckbuildjobid")
-	rundeckpackagejobid := this.Input().Get("rundeckpackagejobid")
+	//	rundeckpackagejobid := this.Input().Get("rundeckpackagejobid")
 	projectid := this.Input().Get("projectid")
-	branchname := this.Input().Get("branchname")
+	buildnumber := this.Input().Get("buildnumber")
 
 	o := orm.NewOrm()
 
-	var env models.Environmentinfo
-	o.QueryTable("Environmentinfo").Filter("id", envid).One(&env)
+	var project models.Projectinfo
+	o.QueryTable("Projectinfo").Filter("Id", projectid).One(&project)
 
-	args := map[string]string{"BUILD_NUMBER": projectenvid, "Branch_NAME": branchname, "Repository_Path": project.Repositorypath}
+	var preenv models.Environmentinfo
+	o.QueryTable("Environmentinfo").Filter("id", envid).One(&preenv)
 
-	response := utility.RundeckRunJob(env.Rundeckapiurl, env.Rundeckapiauthtoken, rundeckbuildjobid, args)
+	var projectbuild models.Projectbuild
+	o.QueryTable("Projectbuild").Filter("projectid", projectid).Filter("BuildNumber", buildnumber).One(&projectbuild)
+
+	var localenv models.Environmentinfo
+	o.QueryTable("Environmentinfo").Filter("id", projectbuild.Envid).One(&localenv)
+
+	var localprojectenv models.Projectenvironment
+	o.QueryTable("Projectenvironment").Filter("Projectid", projectid).Filter("Envid", projectbuild.Envid).One(&localprojectenv)
+
+	//打包操作
+	args := map[string]string{"BUILD_NUMBER": buildnumber, "Repository_Path": project.Repositorypath}
+
+	response := utility.RundeckRunJob(localenv.Rundeckapiurl, localenv.Rundeckapiauthtoken, localprojectenv.Rundeckpackagejobid, args)
 
 	fmt.Println(response)
 
-	fmt.Println(projectenvid)
-	fmt.Println(envid)
-	fmt.Println(rundeckbuildjobid)
-	fmt.Println(rundeckpackagejobid)
-	fmt.Println(projectid)
-	fmt.Println(branchname)
+	//parse rundeck api xml response
+	r := models.RunJobExecutions{}
+	xml_err := xml.Unmarshal([]byte(response), &r)
 
-	this.Data["json"] = env //models.JsonResultBaseStruct{Result: true, Message: "操作成功"}
+	if xml_err != nil {
+		fmt.Printf("error: %v", xml_err)
+		this.Data["json"] = xml_err //url.QueryEscape(logs[0].Packagepath)
+		this.ServeJson()
+	}
+
+	//status_r := models.RunJobExecutions{}
+
+	for i := 0; i < 1; {
+
+		status_r := models.RunJobExecutions{}
+
+		status_response := utility.RundeckExecutionInfo(localenv.Rundeckapiurl, localenv.Rundeckapiauthtoken, r.Exs[0].Id)
+
+		status_xml_err := xml.Unmarshal([]byte(status_response), &status_r)
+
+		if status_xml_err != nil {
+			fmt.Printf("error: %v", status_xml_err)
+			this.Data["json"] = status_xml_err
+			this.ServeJson()
+		}
+
+		if status_r.Exs[0].Status == "succeeded" {
+			i = 1
+		} else {
+			fmt.Println(status_r.Exs[0].Status)
+		}
+
+		time.Sleep(time.Second * 3)
+	}
+
+	//调用预上线环境rundeck
+	pre_args := map[string]string{"url": "http://192.168.0.25:6666/MtimeGoConfigWeb/64/pre/config-web.tar.gz"}
+
+	prejob_response := utility.RundeckRunJob(preenv.Rundeckapiurl, preenv.Rundeckapiauthtoken, rundeckbuildjobid, pre_args)
+
+	fmt.Println(prejob_response)
+
+	//parse rundeck api xml response
+	pre_r := models.RunJobExecutions{}
+	pre_xml_err := xml.Unmarshal([]byte(prejob_response), &pre_r)
+
+	if pre_xml_err != nil {
+		fmt.Printf("error: %v", pre_xml_err)
+		this.Data["json"] = pre_xml_err //url.QueryEscape(logs[0].Packagepath)
+		this.ServeJson()
+	}
+
+	/*
+		fmt.Println(projectenvid)
+		fmt.Println(envid)
+		fmt.Println(rundeckbuildjobid)
+		fmt.Println(rundeckpackagejobid)
+		fmt.Println(projectid)
+		fmt.Println(buildnumber)
+	*/
+
+	this.Data["json"] = models.BuildApiModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, pre_r.Exs[0].Id} //status_r.Exs[0].Id}
 	this.ServeJson()
 }
 

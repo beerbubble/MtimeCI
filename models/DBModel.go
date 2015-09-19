@@ -74,6 +74,7 @@ type Projectbuild struct {
 	Created     time.Time
 	Buildstatus int
 	Executionid int
+	Envid       int
 }
 
 func init() {

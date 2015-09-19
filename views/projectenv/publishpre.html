@@ -65,7 +65,7 @@
 
 						<div class="input-group">
 							<lable class="input-group-addon">版本号:</lable>
-							<select id="branchname" class="form-control">
+							<select id="buildnumber" class="form-control">
 								{{range $index, $projectbuild := .projectbuilds}}
 								<option>{{$projectbuild.Buildnumber}}</option>
 								{{end}} 
