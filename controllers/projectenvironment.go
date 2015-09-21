@@ -395,7 +395,7 @@ func (this *ProjectEnvironmentController) PublishPreApi() {
 	}
 
 	//调用预上线环境rundeck
-	pre_args := map[string]string{"url": "http://192.168.0.25:6666/MtimeGoConfigWeb/64/pre/config-web.tar.gz"}
+	pre_args := map[string]string{"url": project.Repositoryurl + buildnumber + "/pre/" + project.Packagefilename}
 
 	prejob_response := utility.RundeckRunJob(preenv.Rundeckapiurl, preenv.Rundeckapiauthtoken, rundeckbuildjobid, pre_args)
 

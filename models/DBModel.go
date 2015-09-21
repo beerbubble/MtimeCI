@@ -26,14 +26,16 @@ type User struct {
 }
 
 type Projectinfo struct {
-	Id             int
-	Name           string
-	Sourceurl      string
-	Languagetype   int
-	Createtime     string
-	Buildnumber    int
-	Description    string
-	Repositorypath string
+	Id              int
+	Name            string
+	Sourceurl       string
+	Languagetype    int
+	Createtime      string
+	Buildnumber     int
+	Description     string
+	Repositorypath  string
+	Repositoryurl   string
+	Packagefilename string
 }
 
 type Environmentinfo struct {
