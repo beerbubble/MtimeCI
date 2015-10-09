@@ -1,7 +1,7 @@
 package models
 
 import (
-	"time"
+	_ "time"
 )
 
 type ViewProjectListModel struct {
@@ -15,7 +15,7 @@ type ViewProjectEnvironmentModel struct {
 	Envid                int
 	Rundeckbuildjobid    string
 	Rundeckpackagejobid  string
-	Lastexcutiontime     time.Time
+	Lastexcutiontime     string
 	Lastexcutionuserid   int
 	EnvName              string
 	Lastexcutionusername string
