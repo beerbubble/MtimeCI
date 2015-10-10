@@ -25,9 +25,25 @@ func (this *EnvironmentController) List() {
 	var envs []*models.Environmentinfo
 	o.QueryTable("Environmentinfo").All(&envs)
 
+	// var envTypeList []string
+
+	var viewEnvironmentinfoItemModel []*models.ViewEnvironmentinfoItemModel
+
+	for i := 0; i < len(envs); i++ {
+		env := envs[i]
+		fmt.Println(datatype.EnvTypeMap[env.Envtype])
+		// envTypeList = append(envTypeList, datatype.EnvTypeMap[env.Envtype])
+		viewEnvironmentinfoItemModel = append(viewEnvironmentinfoItemModel, &models.ViewEnvironmentinfoItemModel{env.Id, env.Name, env.Description, env.Rundeckapiurl, env.Rundeckapiauthtoken, env.Envtype, datatype.EnvTypeMap[env.Envtype]})
+
+	}
+
+	// for key, value := range datatype.EnvTypeMap {
+	// }
+
 	this.Data["Title"] = "环境列表"
 	//this.Data["envsnum"] = num
-	this.Data["envs"] = envs
+	// this.Data["envTypeList"] = envTypeList
+	this.Data["envs"] = viewEnvironmentinfoItemModel
 
 	this.Layout = "Template.html"
 	this.TplNames = "env/list.html"
@@ -48,11 +64,6 @@ func (this *EnvironmentController) AddOrEdit() {
 
 	//envTypes := datatype.EnvTypes
 
-	for key, value := range datatype.EnvTypeMap {
-		fmt.Println(key)
-		fmt.Println(value)
-	}
-
 	if envid == "" {
 		title = "添加平台信息"
 
@@ -69,8 +80,21 @@ func (this *EnvironmentController) AddOrEdit() {
 		//}
 	}
 
+	viewEnvTypeModels := []*models.ViewEnvTypeModel{}
+
+	for key, value := range datatype.EnvTypeMap {
+		selected := ""
+		//fmt.Println(env.Envtype)
+		if key == env.Envtype {
+			selected = "selected"
+		}
+		//fmt.Println(key, value, selected)
+		viewEnvTypeModels = append(viewEnvTypeModels, &models.ViewEnvTypeModel{key, value, selected})
+	}
+
 	this.Data["Title"] = title
 	this.Data["env"] = env
+	this.Data["envTypes"] = viewEnvTypeModels
 
 	this.Layout = "Template.html"
 	this.TplNames = "env/addoredit.html"
@@ -87,6 +111,7 @@ func (this *EnvironmentController) AddApi() {
 	envdes := this.Input().Get("envdes")
 	envapiurl := this.Input().Get("envapiurl")
 	envapiauthtoken := this.Input().Get("envapiauthtoken")
+	envtype, _ := strconv.Atoi(this.Input().Get("envtype"))
 
 	fmt.Println(envname)
 
@@ -101,6 +126,7 @@ func (this *EnvironmentController) AddApi() {
 			env.Description = envdes
 			env.Rundeckapiurl = envapiurl
 			env.Rundeckapiauthtoken = envapiauthtoken
+			env.Envtype = envtype
 			if num, err := o.Update(&env); err == nil {
 				this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, num}
 			}
@@ -113,6 +139,7 @@ func (this *EnvironmentController) AddApi() {
 		env.Description = envdes
 		env.Rundeckapiurl = envapiurl
 		env.Rundeckapiauthtoken = envapiauthtoken
+		env.Envtype = envtype
 		if id, err := o.Insert(&env); err == nil {
 			this.Data["json"] = models.EnvAddModel{models.JsonResultBaseStruct{Result: true, Message: "操作成功"}, id}
 		}

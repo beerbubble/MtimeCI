@@ -1,13 +1,12 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#submitenv").click(function(e) {
-            //alert("123456");
+
 			var envid = $("#envid").val();
 			var envname = $("#envname").val();
 			var envdes = $("#envdes").val();
             var envapiurl = $("#envapiurl").val();
-            var envapiauthtoken = $("#envapiauthtoken").val();
-            var envtype = $("#envtype").val();
+            var envapiauthtoken = $("envapiauthtoken").val();
 
             //alert(getUrlParameter("url"));
 
@@ -19,9 +18,7 @@
                 	envname: envname,
                 	envdes: envdes,
                     envapiurl: envapiurl,
-                    envapiauthtoken: envapiauthtoken,
-                    envtype:envtype
-
+                    envapiauthtoken: envapiauthtoken
                 },
                 type: 'post',
                 cache: false,
