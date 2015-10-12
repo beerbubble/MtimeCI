@@ -47,6 +47,13 @@ type Environmentinfo struct {
 	Envtype             int
 }
 
+type Moduleinfo struct {
+	Id          int
+	Projectid   int
+	Name        string
+	Description string
+}
+
 type Projectbranch struct {
 	Id         int
 	Projectid  int
@@ -87,4 +94,5 @@ func init() {
 	orm.RegisterModel(new(Projectbranch))
 	orm.RegisterModel(new(Projectenvironment))
 	orm.RegisterModel(new(Projectbuild))
+	orm.RegisterModel(new(Moduleinfo))
 }

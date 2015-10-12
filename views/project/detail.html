@@ -8,6 +8,9 @@
 	<div class="row">
 		
 		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h4>基础信息</h4>
+			</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
@@ -43,181 +46,94 @@
 					<div class="col-lg-12" style="margin-top:15px">
 						<a href="/projectenvironment/addoredit?projectid={{.viewModel.Project.Id}}" class="btn-group"><button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> 添加新环境</button></a>
 						<a href="/projectmodule/addoredit?projectid={{.viewModel.Project.Id}}" class="btn-group"><button type="button" class="btn btn-info"><i class="fa fa-plus-circle"></i> 添加新模块</button></a>
+						<a href="/projectmodule/list/{{.viewModel.Project.Id}}" class="btn-group"><button type="button" class="btn btn-info"><i class="fa fa-list-alt"></i> 管理模块</button></a>
 
 						<!--<a href="/projectenvironment/addoredit?projectid={{.viewModel.Project.Id}}" class="btn-group"><button type="button" class="btn btn-info">添加新环境</button></a>-->
 					</div>
 				</div>
 			</div>	
 		</div>
-		<!--{{range $index, $projectenv := .localprojectenvs}}
+
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				本地环境
+				<h4>部署操作</h4>
 			</div>
 			<div class="panel-body">
-				<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
-				<p>环境名称: {{$projectenv.EnvName}}</p>
-				<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>
-				<p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p>
-				<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
-				<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
-				<p>当前环境版本号: {{$projectenv.Lastbuildnumber}}</p>
-				<p>当前环境分支: {{$projectenv.Lastbuildbranchname}}</p>
-				<p>当前环境Git Hash: {{$projectenv.Lastbuildbranchhash}}</p>
-				<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
-				<p>操作:</p>
-				<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署本地</button></a></p>
-			</div>
-		</div>
-		{{end}}
+				<!-- Nav tabs -->
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active"><a href="#local" aria-controls="local" role="tab" data-toggle="tab">本地环境</a></li>
+					<li role="presentation"><a href="#preonline" aria-controls="preonline" role="tab" data-toggle="tab">预上线环境</a></li>
+					<li role="presentation"><a href="#online" aria-controls="online" role="tab" data-toggle="tab">生产环境</a></li>
+				</ul>
 
-		{{range $index, $projectenv := .preprojectenvs}}
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				预上线环境
-			</div>
-			<div class="panel-body">
-				<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
-				<p>环境名称: {{$projectenv.EnvName}}</p>
-				<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>
-				<p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p>
-				<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
-				<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
-				<p>当前环境版本号: </p>
-				<p>当前环境分支: </p>
-				<p>当前环境Git Hash: </p>
-				<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
-				<p>操作:</p>
-				<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/publishpre?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">发布预上线环境</button></a></p>
-			</div>
-		</div>
-		{{end}}
+				<!-- Tab panes -->
+				<div class="tab-content" style="">
+					<div role="tabpanel" class="tab-pane in active" id="local">
+						{{range $index, $projectenv := .localprojectenvs}}
+						<div>
 
-		{{range $index, $projectenv := .onlineprojectenvs}}
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
-				<p>环境名称: {{$projectenv.EnvName}}</p>
-				<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>
-				<p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p>
-				<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
-				<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
-				<p>当前环境版本号: </p>
-				<p>当前环境分支: </p>
-				<p>当前环境Git Hash: </p>
-				<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
-				<p>操作:</p>
-				<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">发布生产环境</button></a></p>
-			</div>
-		</div>
-		{{end}}-->
-
-		<div>
-
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#local" aria-controls="local" role="tab" data-toggle="tab">本地环境</a></li>
-				<li role="presentation"><a href="#preonline" aria-controls="preonline" role="tab" data-toggle="tab">预上线环境</a></li>
-				<li role="presentation"><a href="#online" aria-controls="online" role="tab" data-toggle="tab">生产环境</a></li>
-			</ul>
-
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane in active" id="local">
-					{{range $index, $projectenv := .localprojectenvs}}
-					<div class="panel">
-						<div class="panel-body">
-
-							<div class="col-sm-12 panel">
+							<div class="col-sm-12">
 								<div class="row">
-									<div class="col-xs-3"><b>Build Number</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastbuildnumber}}</div>
+									<div class="col-xs-3"><h5><b>Build Number</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildnumber}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Branch Name</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastbuildbranchname}}</div>
+									<div class="col-xs-3"><h5><b>Branch Name</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildbranchname}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Git Commit Hash</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastbuildbranchhash}}</div>
+									<div class="col-xs-3"><h5><b>Git Commit Hash</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildbranchhash}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Build User</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastexcutionusername}}</div>
+									<div class="col-xs-3"><h5><b>Build User</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutionusername}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Build Time</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastexcutiontime}}</div>
+									<div class="col-xs-3"><h5><b>Build Time</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutiontime}}</b></h5></div>
 								</div>
 							</div>
-							<!-- <<p style="display:none">环境ID: {{$projectenv.Envid}}</p> -->
-							<!-- <p>环境名称: {{$projectenv.EnvName}}</p> -->
-							<!--<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>-->
-							<!-- <p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p> -->
-							<!--<p>当前环境版本号: {{$projectenv.Lastbuildnumber}}</p>
-							<p>当前环境分支: {{$projectenv.Lastbuildbranchname}}</p>
-							<p>当前环境Git Hash: {{$projectenv.Lastbuildbranchhash}}</p>
-							<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
-							<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
-							
-							<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>-->
 							
 							<a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-primary"><i class="fa fa-pencil-square-o mr5"></i> Edit</button></a>
 							<a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-primary"><i class="fa fa-rocket mr5"></i> Build</button></a>
-							<!-- <p>操作:</p> -->
-							<!-- <p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">部署本地</button></a></p> -->
 						</div>
+						{{end}}
 					</div>
-					{{end}}
-				</div>
-				<div role="tabpanel" class="tab-pane" id="preonline">
-					{{range $index, $projectenv := .preprojectenvs}}
-					<div class="panel">
-						<!--<div class="panel-body">
-							<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
-							<p>环境名称: {{$projectenv.EnvName}}</p>
-							<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>
-							<p>Rundeck Package Job ID: {{$projectenv.Rundeckpackagejobid}}</p>
-							<p>最后部署时间: {{$projectenv.Lastexcutiontime}}</p>
-							<p>最后部署人: {{$projectenv.Lastexcutionusername}}</p>
-							<p>当前环境版本号: </p>
-							<p>当前环境分支: </p>
-							<p>当前环境Git Hash: </p>
-							<p style="display:none">最后执行用户ID: {{$projectenv.Lastexcutionuserid}}</p>
-							<p>操作:</p>
-							<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/publishpre?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">发布预上线环境</button></a></p>
-						</div>-->
-						<div class="col-sm-12 panel">
+					<div role="tabpanel" class="tab-pane" id="preonline">
+						{{range $index, $projectenv := .preprojectenvs}}
+						<div>
+
+							<div class="col-sm-12">
 								<div class="row">
-									<div class="col-xs-3"><b>Build Number</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastbuildnumber}}</div>
+									<div class="col-xs-3"><h5><b>Build Number</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildnumber}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Branch Name</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastbuildbranchname}}</div>
+									<div class="col-xs-3"><h5><b>Branch Name</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildbranchname}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Git Commit Hash</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastbuildbranchhash}}</div>
+									<div class="col-xs-3"><h5><b>Git Commit Hash</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildbranchhash}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Build User</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastexcutionusername}}</div>
+									<div class="col-xs-3"><h5><b>Build User</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutionusername}}</b></h5></div>
 								</div>
 								<div class="row">
-									<div class="col-xs-3"><b>Build Time</b></div>
-									<div class="col-xs-3">{{$projectenv.Lastexcutiontime}}</div>
+									<div class="col-xs-3"><h5><b>Build Time</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutiontime}}</b></h5></div>
 								</div>
 							</div>
-						<a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-primary"><i class="fa fa-pencil-square-o mr5"></i> Edit</button></a>
+							<a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-primary"><i class="fa fa-pencil-square-o mr5"></i> Edit</button></a>
 							<a href="/projectenvironment/publishpre?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-primary"><i class="fa fa-rocket mr5"></i> Build PreOnline</button></a>
+						</div>
+						{{end}}
 					</div>
-					{{end}}
-				</div>
-				<div role="tabpanel" class="tab-pane" id="online">
-					{{range $index, $projectenv := .onlineprojectenvs}}
-					<div class="panel">
-						<div class="panel-body">
+					<div role="tabpanel" class="tab-pane" id="online">
+						{{range $index, $projectenv := .onlineprojectenvs}}
+						<div>
 							<p style="display:none">环境ID: {{$projectenv.Envid}}</p>
 							<p>环境名称: {{$projectenv.EnvName}}</p>
 							<p>Rundeck Build Job ID: {{$projectenv.Rundeckbuildjobid}}</p>
@@ -231,8 +147,8 @@
 							<p>操作:</p>
 							<p><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">编辑</button></a> <a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button type="button" class="btn btn-info">发布生产环境</button></a></p>
 						</div>
+						{{end}}
 					</div>
-					{{end}}
 				</div>
 			</div>
 		</div>

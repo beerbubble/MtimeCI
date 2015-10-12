@@ -2,23 +2,21 @@
 	$(document).ready(function() {
 		$("#submitenv").click(function(e) {
 
-			var envid = $("#envid").val();
-			var envname = $("#envname").val();
-			var envdes = $("#envdes").val();
-            var envapiurl = $("#envapiurl").val();
-            var envapiauthtoken = $("envapiauthtoken").val();
+			var moduleid = $("#moduleid").val();
 
-            //alert(getUrlParameter("url"));
+            var projectid = $("#projectid").val();
+            
+            var modulename = $("#modulename").val();
+            var moduledes = $("#moduledes").val();
 
             e.preventDefault();
             $.ajax({
-                url: '/environment/addapi', // 跳转到 action
+                url: '/projectmodule/addapi', // 跳转到 action
                 data: {
-                	envid: envid,
-                	envname: envname,
-                	envdes: envdes,
-                    envapiurl: envapiurl,
-                    envapiauthtoken: envapiauthtoken
+                	moduleid: moduleid,
+                    projectid: projectid,
+                    modulename: modulename,
+                    moduledes: moduledes,
                 },
                 type: 'post',
                 cache: false,
@@ -26,7 +24,7 @@
                 success: function(data) {
                 	if (data.Result) {
                 		
-                		window.location.href = "/environment/list"
+                		window.location.href = "/project/detail/"+projectid
                 		
                 	} else {
                 		$("#Message").html(data.Message);

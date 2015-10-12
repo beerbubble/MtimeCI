@@ -9,15 +9,22 @@
 		<div class="col-lg-6">
 			<form role="form">
 				<div class="form-group" style="display:none">
-					<input class="form-control" id="envid" value="{{.env.Id}}">
+					<input class="form-control" id="moduleid" value="{{.module.Id}}">
+				</div>
+				<div class="form-group" style="display:none">
+					<input class="form-control" id="projectid" value="{{.project.Id}}">
+				</div>
+				<div class="form-group">
+					<label>项目名称</label>
+					<input class="form-control" id="projectname" value="{{.project.Name}}" disabled>
 				</div>
 				<div class="form-group">
 					<label>模块名称</label>
-					<input class="form-control" id="envname" value="{{.env.Name}}">
+					<input class="form-control" id="modulename" value="{{.module.Name}}">
 				</div>
 				<div class="form-group">
 					<label>模块描述</label>
-					<textarea class="form-control" rows="3" id="envdes">{{.env.Description}}</textarea>
+					<textarea class="form-control" rows="3" id="moduledes">{{.module.Description}}</textarea>
 				</div>
 				<button id="submitenv" class="btn btn-outline btn-success">提交</button>
 				<button type="reset" class="btn btn-outline btn-warning">重置数据</button>
