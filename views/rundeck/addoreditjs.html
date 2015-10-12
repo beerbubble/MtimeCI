@@ -1,0 +1,37 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#submitenv").click(function(e) {
+
+			var serverid = $("#serverid").val();
+            
+            var serverapiurl = $("#serverapiurl").val();
+            var serverauthtoken = $("#serverauthtoken").val();
+
+            e.preventDefault();
+            $.ajax({
+                url: '/rundeck/addapi', // 跳转到 action
+                data: {
+                	serverid: serverid,
+                    serverapiurl: serverapiurl,
+                    serverauthtoken: serverauthtoken
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                	if (data.Result) {
+                		
+                		window.location.href = "/rundeck/serverlist"
+                        
+                	} else {
+                		$("#Message").html(data.Message);
+                        //view(data.Message);
+                    }
+                },
+                error: function() {
+                	alert("异常！");
+                }
+            });
+        });
+});
+</script>

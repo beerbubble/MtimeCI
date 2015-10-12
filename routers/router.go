@@ -19,4 +19,5 @@ func init() {
 	beego.AutoRouter(&controllers.EnvironmentController{})
 	beego.AutoRouter(&controllers.ProjectEnvironmentController{})
 	beego.AutoRouter(&controllers.ProjectModuleController{})
+	beego.AutoRouter(&controllers.RundeckController{})
 }

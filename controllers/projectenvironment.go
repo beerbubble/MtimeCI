@@ -193,6 +193,7 @@ func (this *ProjectEnvironmentController) PublishPre() {
 
 	var projectenv models.Projectenvironment
 	var env *models.Environmentinfo
+	var modules []*models.Moduleinfo
 	var title string
 
 	o := orm.NewOrm()
@@ -201,6 +202,8 @@ func (this *ProjectEnvironmentController) PublishPre() {
 	o.QueryTable("Environmentinfo").All(&envs)
 
 	o.QueryTable("Projectenvironment").Filter("envid", envid).Filter("projectid", projectid).One(&projectenv)
+
+	o.QueryTable("Moduleinfo").Filter("projectid", projectid).All(&modules)
 
 	viewenvironmentinfomodels := []*models.ViewEnvironmentinfoModel{}
 	for i := 0; i < len(envs); i++ {
@@ -234,6 +237,7 @@ func (this *ProjectEnvironmentController) PublishPre() {
 	this.Data["envid"] = envid
 	this.Data["projectbranchs"] = projectbranchs
 	this.Data["projectbuilds"] = projectbuilds
+	this.Data["modules"] = modules
 
 	this.Layout = "Template.html"
 	this.TplNames = "projectenv/publishpre.html"

@@ -60,6 +60,12 @@ type Projectbranch struct {
 	Branchname string
 }
 
+type Rundeckserver struct {
+	Id        int
+	Apiurl    string
+	Authtoken string
+}
+
 type Projectenvironment struct {
 	Id                  int
 	Projectid           int
@@ -95,4 +101,5 @@ func init() {
 	orm.RegisterModel(new(Projectenvironment))
 	orm.RegisterModel(new(Projectbuild))
 	orm.RegisterModel(new(Moduleinfo))
+	orm.RegisterModel(new(Rundeckserver))
 }
