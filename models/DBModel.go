@@ -66,6 +66,15 @@ type Rundeckserver struct {
 	Authtoken string
 }
 
+type Rundeckjob struct {
+	Id                  int
+	Moduleid            int
+	Envid               int
+	Rundeckserverid     int
+	Rundeckbuildjobid   string
+	Rundeckpackagejobid string
+}
+
 type Projectenvironment struct {
 	Id                  int
 	Projectid           int
@@ -102,4 +111,5 @@ func init() {
 	orm.RegisterModel(new(Projectbuild))
 	orm.RegisterModel(new(Moduleinfo))
 	orm.RegisterModel(new(Rundeckserver))
+	orm.RegisterModel(new(Rundeckjob))
 }

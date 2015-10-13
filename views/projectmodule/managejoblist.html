@@ -1,0 +1,128 @@
+<div id="page-wrapper">
+   <br/>
+   <div class="row">
+      <div class="col-lg-12">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <h4>ConfigWeb</h4>
+            </div>
+            <div class="panel-body">
+               配置中心站点
+            </div>
+            <div class="panel-footer">
+               <div class="row">
+                  <!-- <div class="col-lg-10"></div> -->
+                  <div class="col-lg-4">
+                     <a href="/rundeck/addoreditjob?moduleid={{.module.Id}}"><button type="button" class="btn btn-sm btn-info">添加Job</button></a>
+                     <a href="/projectmodule/list/{{.module.Projectid}}"><button type="button" class="btn btn-sm btn-info">返回模块列表</button></a>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-lg-12">
+         <!-- Nav tabs -->
+         <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">测试环境</a>
+            </li>
+            <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false">预上线环境</a>
+            </li>
+            <li class=""><a href="#messages" data-toggle="tab" aria-expanded="false">生产环境</a>
+            </li>
+         </ul>
+         <!-- Tab panes -->
+         <div class="tab-content">
+            <div class="tab-pane fade active in" id="home">
+               <br/>
+               {{range $index, $env := .localenvs}}
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="panel panel-green">
+                        <div class="panel-heading">
+                           {{$env.Env.Name}} -- {{$env.Env.Description}}
+                        </div>
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Build Job id:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckbuildjobid}}</b></h5></div>
+                           </div>
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Package Job id:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckpackagejobid}}</b></h5></div>
+                           </div>
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Rundeck Server:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckserverurl}}</b></h5></div>
+                           </div>
+                           <a href="/rundeck/addoreditjob?rundeckjobid={{$env.Job.Rundeckjobid}}&moduleid={{$env.Job.Rundeckmoduleid}}"><button type="button" class="btn btn-sm btn-info">编辑</button></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               {{end}} 
+            </div>
+            <div class="tab-pane fade" id="profile">
+               <br />
+               {{range $index, $env := .preenvs}}
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                           {{$env.Env.Name}} -- {{$env.Env.Description}}
+                        </div>
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Build Job id:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckbuildjobid}}</b></h5></div>
+                           </div>
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Package Job id:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckpackagejobid}}</b></h5></div>
+                           </div>
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Rundeck Server:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckserverurl}}</b></h5></div>
+                           </div>
+                           <a href="/rundeck/addoreditjob?rundeckjobid={{$env.Job.Rundeckjobid}}&moduleid={{$env.Job.Rundeckmoduleid}}"><button type="button" class="btn btn-sm btn-info">编辑</button></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               {{end}} 
+            </div>
+            <div class="tab-pane fade" id="messages">
+               <br />
+               {{range $index, $env := .onlineenvs}}
+               <div class="row">
+                  <div class="col-lg-12">
+                     <div class="panel panel-red">
+                        <div class="panel-heading">
+                           {{$env.Env.Name}} -- {{$env.Env.Description}}
+                        </div>
+                        <div class="panel-body">
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Build Job id:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckbuildjobid}}</b></h5></div>
+                           </div>
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Package Job id:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckpackagejobid}}</b></h5></div>
+                           </div>
+                           <div class="row">
+                              <div class="col-xs-3"><h5><b>Rundeck Server:</b></h5></div>
+                              <div class="col-xs-6"><h5><b>{{$env.Job.Rundeckserverurl}}</b></h5></div>
+                           </div>
+                           <a href="/rundeck/addoreditjob?rundeckjobid={{$env.Job.Rundeckjobid}}&moduleid={{$env.Job.Rundeckmoduleid}}"><button type="button" class="btn btn-sm btn-info">编辑</button></a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               {{end}} 
+            </div>
+         </div>
+      </div>
+      <!-- /.col-lg-12 -->
+   </div>
+</div>

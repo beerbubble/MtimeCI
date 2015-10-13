@@ -23,7 +23,10 @@
 								<tr>
 									<td>{{$module.Name}}</td>
 									<td>{{$module.Description}}</td>
-									<td><a href="/projectmodule/addoredit?projectid={{$module.Projectid}}&moduleid={{$module.Id}}"><button type="button" class="btn btn-info">详情</button></a></td>
+									<td>
+										<a href="/projectmodule/addoredit?projectid={{$module.Projectid}}&moduleid={{$module.Id}}"><button type="button" class="btn btn-xs btn-info">详情</button></a>
+										<a href="/projectmodule/managejob?moduleid={{$module.Id}}"><button type="button" class="btn btn-xs btn-info">Rundeck任务管理</button></a>
+									</td>
 								</tr>
 								{{end}} 
 							</tbody>

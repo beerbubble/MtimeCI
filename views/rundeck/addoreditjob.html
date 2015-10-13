@@ -1,0 +1,48 @@
+<div id="page-wrapper">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">{{.Title}}</h1>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<div class="row">
+		<div class="col-lg-6">
+			<form role="form">
+				<div class="form-group" style="display:none">
+					<input class="form-control" id="moduleid" value="{{.module.Id}}">
+				</div>
+				<div class="form-group" style="display:none">
+					<input class="form-control" id="jobid" value="{{.job.Id}}">
+				</div>
+				<div class="form-group">
+					<label>选择平台:</label>
+					<select class="form-control" id="envid">
+						{{range $index, $env := $.envs}}
+						<option value="{{$env.Id}}" {{$env.Selected}}>{{$env.Name}}</option>
+						{{end}} 
+					</select>
+				</div>
+				<div class="form-group">
+					<label>选择Rundeck Server:</label>
+					<select class="form-control" id="rundeckserverid">
+						{{range $index, $server := $.servers}}
+						<option value="{{$server.Id}}" {{$server.Selected}}>{{$server.Apiurl}}</option>
+						{{end}} 
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Build Job Id</label>
+					<input class="form-control" id="rundeckbuildjobid" value="{{.job.Rundeckbuildjobid}}">
+				</div>
+				<div class="form-group">
+					<label>Package Job Id</label>
+					<input class="form-control" id="rundeckpackagejobid" value="{{.job.Rundeckpackagejobid}}">
+				</div>
+				<button id="submitenv" class="btn btn-outline btn-success">提交</button>
+				<button type="reset" class="btn btn-outline btn-warning">重置数据</button>
+			</form>
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+</div>

@@ -124,6 +124,70 @@ func (this *ProjectModuleController) List() {
 	this.TplNames = "projectmodule/list.html"
 	this.LayoutSections = make(map[string]string)
 	this.LayoutSections["NavContent"] = "component/nav.html"
-	this.LayoutSections["Scripts"] = "env/listjs.html"
+	this.LayoutSections["Scripts"] = "projectmodule/listjs.html"
+	this.LayoutSections["HtmlHead"] = "env/listcss.html"
+}
+
+func (this *ProjectModuleController) ManageJob() {
+
+	utility.ViewLogin(this.Ctx)
+
+	moduleid := this.Input().Get("moduleid")
+
+	o := orm.NewOrm()
+
+	var envs []models.Environmentinfo
+	o.QueryTable("Environmentinfo").All(&envs)
+
+	var module models.Moduleinfo
+	o.QueryTable("Moduleinfo").Filter("Id", moduleid).One(&module)
+
+	var localenvs []*models.ViewProjectModuleManageModel
+	var preenvs []*models.ViewProjectModuleManageModel
+	var onlineenvs []*models.ViewProjectModuleManageModel
+
+	var jobs []models.Rundeckjob
+	o.QueryTable("Rundeckjob").Filter("Moduleid", moduleid).All(&jobs)
+
+	// var jobmodels []*models.ViewProjectModuleJobModel
+
+	// jobmodels = append(jobmodels, &models.ViewProjectModuleJobModel{"1" + "TTTT", "2"})
+
+	for _, env := range envs {
+		var job models.Rundeckjob
+		for i := 0; i < len(jobs); i++ {
+			if jobs[i].Envid == env.Id {
+				job = jobs[i]
+				break
+			}
+		}
+
+		switch env.Envtype {
+		case 1:
+			localenvs = append(localenvs, &models.ViewProjectModuleManageModel{env, models.ViewRundeckJobModel{job.Id, job.Moduleid, strconv.Itoa(job.Rundeckserverid), job.Rundeckbuildjobid, job.Rundeckpackagejobid}})
+		case 2:
+			preenvs = append(preenvs, &models.ViewProjectModuleManageModel{env, models.ViewRundeckJobModel{job.Id, job.Moduleid, strconv.Itoa(job.Rundeckserverid), job.Rundeckbuildjobid, job.Rundeckpackagejobid}})
+		case 3:
+			onlineenvs = append(onlineenvs, &models.ViewProjectModuleManageModel{env, models.ViewRundeckJobModel{job.Id, job.Moduleid, strconv.Itoa(job.Rundeckserverid), job.Rundeckbuildjobid, job.Rundeckpackagejobid}})
+		}
+	}
+
+	this.Data["Title"] = "模块列表"
+	this.Data["golangactive"] = "active"
+	this.Data["projectactive"] = "active"
+
+	this.Data["localenvs"] = localenvs
+	this.Data["preenvs"] = preenvs
+	this.Data["onlineenvs"] = onlineenvs
+
+	//this.Data["envsnum"] = num
+	// this.Data["envTypeList"] = envTypeList
+	this.Data["module"] = module
+
+	this.Layout = "Template.html"
+	this.TplNames = "projectmodule/managejoblist.html"
+	this.LayoutSections = make(map[string]string)
+	this.LayoutSections["NavContent"] = "component/nav.html"
+	this.LayoutSections["Scripts"] = "projectmodule/managejoblistjs.html"
 	this.LayoutSections["HtmlHead"] = "env/listcss.html"
 }

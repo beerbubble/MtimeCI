@@ -236,11 +236,11 @@
                         <li>
                             <a href="/"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
-                         <li>
+                         <li class="{{.projectactive}}">
                             <a href="#"><i class="fa fa-sitemap fa-fw"></i> 项目列表<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="/project/list?languageType=1">golang</a>
+                                    <a href="/project/list?languageType=1" class="{{.golangactive}}">golang</a>
                                 </li>
                                 <li>
                                     <a href="/project/list?languageType=3">Java</a>

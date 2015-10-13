@@ -1,0 +1,44 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#submitenv").click(function(e) {
+
+			var moduleid = $("#moduleid").val();
+            var jobid = $("#jobid").val();
+
+            var envid = $("#envid").val();
+            var rundeckserverid = $("#rundeckserverid").val();
+            
+            var rundeckbuildjobid = $("#rundeckbuildjobid").val();
+            var rundeckpackagejobid = $("#rundeckpackagejobid").val();
+
+            e.preventDefault();
+            $.ajax({
+                url: '/rundeck/addjobapi', // 跳转到 action
+                data: {
+                	moduleid: moduleid,
+                    jobid: jobid,
+                    envid: envid,
+                    rundeckserverid: rundeckserverid,
+                    rundeckbuildjobid: rundeckbuildjobid,
+                    rundeckpackagejobid: rundeckpackagejobid
+                },
+                type: 'post',
+                cache: false,
+                dataType: 'json',
+                success: function(data) {
+                	if (data.Result) {
+                		
+                		window.location.href = "/projectmodule/managejob?moduleid="+moduleid
+                        
+                	} else {
+                		$("#Message").html(data.Message);
+                        //view(data.Message);
+                    }
+                },
+                error: function() {
+                	alert("异常！");
+                }
+            });
+        });
+});
+</script>
