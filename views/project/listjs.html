@@ -4,7 +4,12 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#example').DataTable({
-            responsive: true,
+            "responsive": true,
+            "ordering":  false,
+            "lengthChange" : false,
+            "searching": false,
+            "paging":false,
+            "info": false,
             "columnDefs": [
             { "orderable": false, "targets": 4 }
             ]

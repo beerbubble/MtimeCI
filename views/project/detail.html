@@ -93,12 +93,22 @@
 									<div class="col-xs-3"><h5><b>Build Time</b></h5></div>
 									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutiontime}}</b></h5></div>
 								</div>
+								<div class="row">
+									<div class="col-xs-3"><h5><b>Include Module</b></h5></div>
+									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutiontime}}</b></h5></div>
+								</div>
 							</div>
 							
 							<a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o mr5"></i> Edit</button></a>
 							<a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-sm btn-primary"><i class="fa fa-rocket mr5"></i> Build</button></a>
 						</div>
 						{{end}}
+
+						<div>
+						{{range $index, $module := .modules}}
+						<p>{{$module.Name}}</p>
+						{{end}}
+						</div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="preonline">
 						{{range $index, $projectenv := .preprojectenvs}}

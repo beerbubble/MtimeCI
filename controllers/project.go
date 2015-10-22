@@ -152,6 +152,9 @@ func (this *ProjectController) Detail() {
 	var envs []*models.Environmentinfo
 	o.QueryTable("Environmentinfo").All(&envs)
 
+	var modules []*models.Moduleinfo
+	o.QueryTable("Moduleinfo").Filter("Projectid", projectid).All(&modules)
+
 	envmap := make(map[int]*models.Environmentinfo)
 	for i := 0; i < len(envs); i++ {
 		envmap[envs[i].Id] = envs[i]
@@ -199,6 +202,7 @@ func (this *ProjectController) Detail() {
 	this.Data["localprojectenvs"] = viewlocalprojectenvmodels
 	this.Data["preprojectenvs"] = viewpreprojectenvmodels
 	this.Data["onlineprojectenvs"] = viewonlineprojectenvmodels
+	this.Data["modules"] = modules
 
 	this.Layout = "Template.html"
 	this.TplNames = "project/detail.html"
