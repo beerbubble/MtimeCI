@@ -22,6 +22,7 @@ type ViewProjectEnvironmentModel struct {
 	Lastbuildnumber      int
 	Lastbuildbranchname  string
 	Lastbuildbranchhash  string
+	Modules              []*Moduleinfo
 }
 
 type ApiUpdateBranchModel struct {

@@ -178,14 +178,14 @@ func (this *ProjectController) Detail() {
 
 		switch env.Envtype {
 		case 1:
-			viewlocalprojectenvmodels = append(viewlocalprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
+			viewlocalprojectenvmodels = append(viewlocalprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash, modules})
 		case 2:
-			viewpreprojectenvmodels = append(viewpreprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
+			viewpreprojectenvmodels = append(viewpreprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash, modules})
 		case 3:
-			viewonlineprojectenvmodels = append(viewonlineprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
+			viewonlineprojectenvmodels = append(viewonlineprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash, modules})
 		}
 
-		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash})
+		viewprojectenvmodels = append(viewprojectenvmodels, &models.ViewProjectEnvironmentModel{projectenvs[i].Id, projectenvs[i].Projectid, projectenvs[i].Envid, projectenvs[i].Rundeckbuildjobid, projectenvs[i].Rundeckpackagejobid, projectenvs[i].Lastexcutiontime.Format("2006-01-02 15:04:05"), projectenvs[i].Lastexcutionuserid, envmap[projectenvs[i].Envid].Name, usermap[projectenvs[i].Lastexcutionuserid], projectenvs[i].Lastbuildnumber, projectenvs[i].Lastbuildbranchname, projectenvs[i].Lastbuildbranchhash, modules})
 	}
 
 	fmt.Println(len(viewlocalprojectenvmodels))
@@ -208,6 +208,6 @@ func (this *ProjectController) Detail() {
 	this.TplNames = "project/detail.html"
 	this.LayoutSections = make(map[string]string)
 	this.LayoutSections["NavContent"] = "component/nav.html"
-	this.LayoutSections["Scripts"] = "project/listjs.html"
+	//this.LayoutSections["Scripts"] = "project/listjs.html"
 	this.LayoutSections["HtmlHead"] = "project/listcss.html"
 }

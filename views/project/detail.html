@@ -95,7 +95,11 @@
 								</div>
 								<div class="row">
 									<div class="col-xs-3"><h5><b>Include Module</b></h5></div>
-									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutiontime}}</b></h5></div>
+									<div class="col-xs-6"><h5><b>
+									{{range $index, $module := $projectenv.Modules}}
+									<p>{{$module.Name}}</p>
+									{{end}}
+									</b></h5></div>
 								</div>
 							</div>
 							
@@ -103,42 +107,37 @@
 							<a href="/projectenvironment/build?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-sm btn-primary"><i class="fa fa-rocket mr5"></i> Build</button></a>
 						</div>
 						{{end}}
-
-						<div>
-						{{range $index, $module := .modules}}
-						<p>{{$module.Name}}</p>
-						{{end}}
-						</div>
 					</div>
 					<div role="tabpanel" class="tab-pane" id="preonline">
+						<br/>
 						{{range $index, $projectenv := .preprojectenvs}}
-						<div>
-
-							<div class="col-sm-12">
-								<div class="row">
-									<div class="col-xs-3"><h5><b>Build Number</b></h5></div>
-									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildnumber}}</b></h5></div>
-								</div>
-								<div class="row">
-									<div class="col-xs-3"><h5><b>Branch Name</b></h5></div>
-									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildbranchname}}</b></h5></div>
-								</div>
-								<div class="row">
-									<div class="col-xs-3"><h5><b>Git Commit Hash</b></h5></div>
-									<div class="col-xs-3"><h5><b>{{$projectenv.Lastbuildbranchhash}}</b></h5></div>
-								</div>
-								<div class="row">
-									<div class="col-xs-3"><h5><b>Build User</b></h5></div>
-									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutionusername}}</b></h5></div>
-								</div>
-								<div class="row">
-									<div class="col-xs-3"><h5><b>Build Time</b></h5></div>
-									<div class="col-xs-3"><h5><b>{{$projectenv.Lastexcutiontime}}</b></h5></div>
-								</div>
-							</div>
-							<a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o mr5"></i> Edit</button></a>
-							<a href="/projectenvironment/publishpre?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-sm btn-primary"><i class="fa fa-rocket mr5"></i> Build PreOnline</button></a>
-						</div>
+						<table id="example" class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Build Number</th>
+									<th>Branch Name</th>
+									<th>Git Commit Hash</th>
+									<th>Build User</th>
+									<th>Build Time</th>	
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{range $index, $module := $projectenv.Modules}}
+								<tr>
+									<td>{{$module.Name}}</td>
+									<td>{{$projectenv.Lastbuildnumber}}</td>
+									<td>{{$projectenv.Lastbuildbranchname}}</td>
+									<td>{{$projectenv.Lastbuildbranchhash}}</td>
+									<td>{{$projectenv.Lastexcutionusername}}</td>
+									<td>{{$projectenv.Lastexcutiontime}}</td>
+									<td><a href="/projectenvironment/addoredit?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil-square-o mr5"></i> Edit</button></a>
+							<a href="/projectenvironment/publishpre?projectid={{$projectenv.Projectid}}&envid={{$projectenv.Envid}}"><button class="btn btn-sm btn-primary"><i class="fa fa-rocket mr5"></i> Build PreOnline</button></a></td>
+								</tr>
+								{{end}}
+							</tbody>
+						</table>
 						{{end}}
 					</div>
 					<div role="tabpanel" class="tab-pane" id="online">
